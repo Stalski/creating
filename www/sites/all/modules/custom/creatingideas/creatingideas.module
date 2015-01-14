@@ -1,0 +1,226 @@
+<?php
+
+/*
+ * @file
+ * Custom code for Creating Ideas.
+ */
+
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function creatingideas_field_formatter_info() {
+  return array(
+    'level_of_difficulty' => array(
+      'label' => t('Level of difficulty'),
+      'field types' => array(),
+      'settings' => array(
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function creatingideas_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $element = array();
+
+  if (strpos($display['type'], '_trimmed') !== FALSE) {
+    $element['trim_length'] = array(
+      '#title' => t('Trim length'),
+      '#type' => 'textfield',
+      '#size' => 10,
+      '#default_value' => $settings['trim_length'],
+      '#element_validate' => array('element_validate_integer_positive'),
+      '#required' => TRUE,
+    );
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function creatingideas_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = array();
+
+  if ($display['type'] == 'creatingideas' || $display['type'] == 'colorbox_link') {
+    $entity_info = entity_get_info('file');
+    $options = array('default' => t('Default'));
+    foreach ($entity_info['view modes'] as $file_view_mode => $file_view_mode_info) {
+      $options[$file_view_mode] = $file_view_mode_info['label'];
+    }
+    if ($display['type'] == 'creatingideas') {
+      if (isset($options[$settings['file_view_mode']])) {
+        $summary[] = t('File view mode: @style', array('@style' => $options[$settings['file_view_mode']]));
+      }
+      else {
+        $summary[] = t('File view mode: none');
+      }
+    }
+
+    //settings for colorbox_link
+    if($display['type'] == 'colorbox_link'){
+      if($field['type'] == 'text'){
+        $summary[] = t('Text format: @style', array('@style' => $settings['text_format']));
+      }elseif($field['type'] == 'image'){
+        $summary[] = t('Image style: @style', array('@style' => $settings['image_style']));
+      }
+    }
+
+    if (isset($options[$settings['colorbox_view_mode']])) {
+      $summary[] = t('Colorbox view mode: @style', array('@style' => $options[$settings['colorbox_view_mode']]));
+    }
+    else {
+      $summary[] = t('Colorbox view mode: none');
+    }
+
+    if (isset($settings['fixed_width'])) {
+      $summary[] = t('Fixed Width: @dimensions', array('@dimensions' => $settings['fixed_width']));
+    }
+
+    if (isset($settings['fixed_height'])) {
+      $summary[] = t('Fixed Height: @dimensions', array('@dimensions' => $settings['fixed_height']));
+    }
+
+    $gallery = array(
+      'post' => t('Per post gallery'),
+      'page' => t('Per page gallery'),
+      'field_post' => t('Per field in post gallery'),
+      'field_page' => t('Per field in page gallery'),
+      'custom' => t('Custom'),
+      'none' => t('No gallery'),
+    );
+    if (isset($settings['colorbox_gallery'])) {
+      $summary[] = t('Colorbox gallery type: @type', array('@type' => $gallery[$settings['colorbox_gallery']])) . ($settings['colorbox_gallery'] == 'custom' ? ' (' . $settings['colorbox_gallery_custom'] . ')' : '');
+    }
+    //custom caption field
+    $caption = array(
+      'title' => t('Title text'),
+      'mediafield' => t('File Type text field'),
+      'none' => t('None'),
+    );
+    if (isset($settings['colorbox_caption'])) {
+      $summary[] = t('Colorbox caption: @type', array('@type' => $caption[$settings['colorbox_caption']]));
+    }
+    $summary[] = t('Audio Playlist: @value', array('@value' => (isset($settings['audio_playlist']) && $settings['audio_playlist']) ? t('Enabled') : t('Disabled')));
+  }
+
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function creatingideas_field_formatter_view($entity_type, $entity, $field, $instances = NULL, $langcode = NULL, $items = NULL, $display = NULL) {
+  $element = array();
+  GLOBAL $nid;
+  $nid=1;
+  if(isset($entity->nid)) {//file embedded in node
+    $nid = $entity->nid;
+  }elseif(isset($entity->fid) && $nid != 1){
+    $nid = $entity->fid;
+  }
+
+  if($display['type'] == 'colorbox_link'){
+
+    foreach ($items as $delta => $item) {
+      $file_id = NULL;
+      $colorbox_field_caption_value = '';
+      if($entity_type == 'file'){
+        $file_id = $entity->fid;
+        $colorbox_caption_var_name = 'creatingideas_' . $entity->type . '_caption_field_name';
+        $colorbox_caption_field_name = variable_get($colorbox_caption_var_name);
+        $colorbox_field_caption_value = NULL;
+
+        if (isset($items[0]{$colorbox_caption_field_name})){
+          $colorbox_field_caption_value = isset($items[0]{$colorbox_caption_field_name}['und'][0]) ?
+          $items[0]{$colorbox_caption_field_name}['und'][0]['value'] : NULL;
+        }
+      }
+      $render_array = array();
+      $display['type'] = 'default_formatter';
+      $formatter_type = field_info_formatter_types($display['type']);
+      $display['module'] = $formatter_type['module'];
+
+      $render_array = field_view_field($entity_type, $entity, $field['field_name'], $display, $langcode);
+      $render_array['#label_display'] = 'hidden';//always set to hidden, label will appear outside of link if set to be visisble
+
+      $element[$delta] = array(
+        '#theme' => 'creatingideas',
+        '#entity_id' => $nid,
+        '#item' => $render_array,
+        '#field' => $field,
+        '#display_settings' => $display['settings'],
+        '#langcode' => $langcode,
+        '#path' => 'creatingideas/' . $file_id . '/' . $display['settings']['colorbox_view_mode'] . '/' . $langcode,
+        //this is where Media is being added as the title attribute
+        '#title' => isset($entity->filename) ? strip_tags($entity->filename) : NULL,
+        '#creatingideas_caption' => $colorbox_field_caption_value,
+      );
+    }
+  }
+
+  //the $field won't be set if being formatted by file_entity_file_formatter_file_field_view
+  if(!isset($field) && ($display['type'] == 'creatingideas' || $display['type'] == 'colorbox_link')) {//standalone entity
+    $colorbox_caption_var_name = 'creatingideas_' . $items[0]['type'] . '_caption_field_name';
+    $colorbox_caption_field_name = variable_get($colorbox_caption_var_name);
+    $colorbox_field_caption_value = NULL;
+
+    if (isset($items[0]{$colorbox_caption_field_name})){
+      $colorbox_field_caption_value = isset($items[0]{$colorbox_caption_field_name}['und'][0]) ?
+      $items[0]{$colorbox_caption_field_name}['und'][0]['value'] : NULL;
+    }
+    //get attributes for item to use on item and wrapping link
+    $class = isset($items[0]['override']['class']) ? $items[0]['override']['class'] : NULL;
+    $style = isset($items[0]['override']['style']) ? $items[0]['override']['style'] : NULL;
+
+    //variable array for theme_creatingideas
+    $element[0] = array(
+        '#theme' => 'creatingideas',
+        '#item_class' => $class,
+        '#item_style' => isset($items[0]['override']['style']) ? $items[0]['override']['style'] : NULL,
+        '#entity_id' => $nid,
+        '#file_id' => $entity->fid,
+        '#field' => $field,
+        '#display_settings' => $display['settings'],
+        '#langcode' => $langcode,
+        '#path' => 'creatingideas/' . $entity->fid . '/' . $display['settings']['colorbox_view_mode'] . '/' . $langcode,
+        '#title' => isset($instances['label']) ? strip_tags($instances['label']) : NULL,
+        '#creatingideas_caption' => $colorbox_field_caption_value,
+      );
+  }
+  elseif ($display['type'] == 'creatingideas') {//file field on another entity, $field is set
+
+    foreach ($items as $delta => $item) {
+      $colorbox_caption_var_name = 'creatingideas_' . $item['type'] . '_caption_field_name';
+      $colorbox_caption_field_name = variable_get($colorbox_caption_var_name);
+      $colorbox_field_caption_value = NULL;
+
+      if (isset($item{$colorbox_caption_field_name})){
+        $colorbox_field_caption_value = isset($item{$colorbox_caption_field_name}['und'][0]) ?
+        $item{$colorbox_caption_field_name}['und'][0]['value'] : NULL;
+      }
+      $element[$item['fid']] = array(
+        '#theme' => 'creatingideas',
+        '#entity_id' => $nid,
+        '#file_id' => $item['fid'],
+        '#field' => $field,
+        '#display_settings' => $display['settings'],
+        '#langcode' => $langcode,
+        '#path' => 'creatingideas/' . $item['fid'] . '/' . $display['settings']['colorbox_view_mode'] . '/' . $langcode,
+        //this is where Media is being added as the title attribute
+        '#title' => isset($instances['label']) ? strip_tags($instances['label']) : NULL,
+        '#creatingideas_caption' => $colorbox_field_caption_value,
+      );
+    }
+  }
+  return $element;
+}

@@ -1,0 +1,110 @@
+
+ul.sf-main-menu {
+  list-style: none;
+  float: right;
+  margin: 0; padding: 0;
+}
+ul.sf-main-menu li {
+  position: relative;
+  list-style: none;
+  float: left;
+  background: transparent url('../images/nav-sep.png') right 16px no-repeat;
+  padding: 0 5px 3px 0;
+  display: list-item;
+}
+ul.sf-main-menu li a {
+  float: left;
+  display: block;
+  color: #545454;
+  text-decoration: none;
+  font-family: "Cabin Condensed", "Myriad Pro", Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  padding: 6px 0 6px;
+  border: 0;
+  border-top: 3px solid transparent;
+  outline: 0;
+  margin: 0 17px;
+  list-style-type: none;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+ul.sf-main-menu li a:active,
+ul.sf-main-menu li a:hover,
+ul.sf-main-menu li a.active {
+  color: #545454;
+  border: 0;
+  border-top: 3px solid #eb68af;
+}
+ul.sf-main-menu li.last {
+  background: transparent none;
+}
+ul.sf-main-menu li.last a {
+  margin-right: 0;
+}
+
+ul.sf-main-menu li ul li {
+  border: none;
+  color: #545454;
+  background: #efefef none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #bd4c89;
+  width: 120px;
+}
+ul.sf-main-menu li li a {
+  float: left;
+  display: block;
+  color: #545454;
+  text-decoration: none;
+  font-family: "Cabin Condensed", "Myriad Pro", Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  padding: 8px;
+  width: 114px;
+  margin: 0;
+  list-style-type: none;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+ul.sf-main-menu li li a:active,
+ul.sf-main-menu li li a:hover,
+ul.sf-main-menu li li a.active {
+  background-color: #bd4c89;
+  color: #FFFFFF;
+  border: 0;
+}
+
+ul.social-links {
+  position: absolute;
+  top: 75px; right: 0;
+  margin: 0; padding: 0;
+  list-style: none;
+}
+ul.social-links li {
+  float: right;
+  margin: 0; padding: 0;
+  list-style: none;
+}
+ul.social-links li.pipe {
+  display: none;
+}
+
+ul.social-links li a {
+  text-indent: -9999px;
+  display: block;
+  width: 23px;
+  height: 23px;
+  margin: 0 0 0 3px; padding: 0;
+}
+ul.social-links li a.twitter {
+  background: transparent url('../images/social-pink.png') -46px 0 no-repeat;
+}
+ul.social-links li a.facebook {
+  background: transparent url('../images/social-pink.png') 0 0 no-repeat;
+}
+ul.social-links li a.email {
+  background: transparent url('../images/social-pink.png') -92px 0 no-repeat;
+}

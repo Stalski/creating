@@ -1,0 +1,40 @@
+<?php
+/**
+ * @file
+ * Code for the creating_workshops feature.
+ */
+
+include_once 'creating_workshops.features.inc';
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function creating_workshops_field_formatter_info() {
+  return array(
+    'level_of_difficulty' => array(
+      'label' => t('Level of difficulty'),
+      'field types' => array('list_text'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function creating_workshops_field_formatter_view($entity_type, $entity, $field, $instance, $lang_code, $items, $display) {
+  $element = array();
+
+  switch ($display['type']) {
+    case 'level_of_difficulty':
+      foreach ($items as $delta => $item) {
+        $key = field_filter_xss($item['value']);
+        $output = theme('image', array(
+          'path' => drupal_get_path('module', 'creating_workshops') . '/images/difficulty_' . $key . '.png'
+        ));
+        $element[$delta] = array('#markup' => $output);
+      }
+      break;
+  }
+
+  return $element;
+}
