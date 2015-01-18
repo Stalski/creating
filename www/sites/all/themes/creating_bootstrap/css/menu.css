@@ -1,0 +1,77 @@
+/*
+#main-menu ul.nav li a {
+  float: left;
+  display: block;
+  color: #545454;
+  text-decoration: none;
+  font-family: "Cabin Condensed", "Myriad Pro", Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  padding: 6px 0 6px;
+  border: 0;
+  border-top: 3px solid transparent;
+  outline: 0;
+  margin: 0 17px;
+  list-style-type: none;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+#main-menu ul.nav li a:active,
+#main-menu ul.nav li a:hover,
+#main-menu ul.nav li a.active {
+  color: #545454;
+  border: 0;
+  border-top: 3px solid #eb68af;
+}*/
+
+
+/**
+ * Secundary links
+ */
+ul.secondary {
+  float: right;
+  width: 350px;
+  margin-top: 60px;
+  margin-right: 45px;
+}
+ul.secondary li {
+  float: right;
+  list-style: none;
+  list-style-type: none;
+  list-style-image: none;
+  margin: 0 8px;
+}
+
+/**
+ * Social links
+ */
+ul.social-links {
+  position: absolute;
+  top: 75px; right: 15px;
+  margin: 0; padding: 0;
+  list-style: none;
+}
+ul.social-links li {
+  float: right;
+  margin: 0; padding: 0;
+  list-style: none;
+}
+ul.social-links li.pipe {
+  display: none;
+}
+
+ul.social-links li a {
+  text-indent: -9999px;
+  display: block;
+  width: 23px;
+  height: 23px;
+  margin: 0 0 0 3px; padding: 0;
+}
+ul.social-links li a.twitter {
+  background: transparent url('../images/social-pink.png') -46px 0 no-repeat;
+}
+ul.social-links li a.facebook {
+  background: transparent url('../images/social-pink.png') 0 0 no-repeat;
+}
+ul.social-links li a.email {
+  background: transparent url('../images/social-pink.png') -92px 0 no-repeat;
+}
