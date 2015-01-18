@@ -18,10 +18,24 @@ regions[footer]         = 'Footer'
 ; Stylesheets
 stylesheets[all][] =  less/style.less
 
+stylesheets[all][] = bootstrap/css/bootstrap.css
+
+stylesheets[all][] = css/overrides.css
 stylesheets[all][] = css/layout.css
-;stylesheets[all][] = css/menu.css
+stylesheets[all][] = css/menu.css
 stylesheets[all][] = css/style.css
 stylesheets[all][] = css/content.css
+
+less[vars][@brand-primary]      = #eb68af
+less[vars][@brand-success]      = #5cb85c
+less[vars][@brand-warning]      = #f0ad4e
+less[vars][@brand-danger]       = #d9534f
+less[vars][@brand-info]         = #5bc0de
+less[vars][@border-radius-base]       = 4px
+less[vars][@border-radius-large]      = 6px
+less[vars][@border-radius-small]      = 3px
+less[vars][@font-family-sans-serif]   = "Helvetica Neue", Helvetica, Arial, sans-serif
+less[vars][@font-family-serif]        = Georgia, "Times New Roman", Times, serif
 
 ; Scripts
 ;scripts[] = 'js/creating-bootstrap.js'
@@ -43,6 +57,7 @@ scripts[] = 'bootstrap/js/popover.js'
 ; scripts[] = 'bootstrap/js/scrollspy.js'
 scripts[] = 'bootstrap/js/tab.js'
 scripts[] = 'bootstrap/js/transition.js'
+
 ; ; Settings inherited by base theme, uncomment to override.
 ; settings[toggle_name] = 1
 ; settings[toggle_search] = 0
