@@ -1,6 +1,227 @@
+
+/**
+ * General overrides.
+ */
+.page-header {
+  border-bottom: none;
+  margin: 10px 0 5px;
+  padding-bottom: 10px;
+}
+
+.view-commerce-cart-form .form-group {
+  margin-bottom: 5px;
+}
+
+.label-default {
+  background-color: #ae40a5;
+}
+.label-default a,
+.label-default a:hover {
+  color: #FFF;
+}
+.label-default:hover {
+  background-color: #eb68af;
+}
+.category .label {
+  padding: 0.4em 0.8em 0.6em;
+  font-size: 0.9em;
+}
+span.category {
+  padding-bottom: 15px;
+  padding-top: 15px;
+  padding-right: 10px;
+  display: inline-block;
+}
+
+.pane-featured-displays .media {
+  margin-top: 20px;
+  border-bottom: 1px solid #CCC;
+}
+
+.form-type-radio input[type="radio"] {
+  margin-left: 0;
+}
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.form-item-commerce-shipping-service-details-kiala-point label {
+  display: block;
+  padding-left: 0;
+}
+.form-item-commerce-shipping-service-details-kiala-point span.button {
+  position: relative;
+  left: 0;
+}
+
+/**
+ * Customize the navbar
+ */
 .navbar-header {
   float: none;
 }
 .navbar-collapse {
   padding-left: 0;
+}
+
+#main-menu .nav > li > a:focus,
+#main-menu .nav > li > a:hover,
+#main-menu .nav > li > a.active,
+#main-menu .nav .open > a:focus {
+  background-color: #eb68af;
+  color: #FFF;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  background-color: #eb68af;
+  color: #FFF;
+}
+
+/**
+ * Customize the buttons
+ */
+.btn-lg {
+  padding: 8px 14px;
+  font-size: 17px;
+}
+.btn-primary {
+  background-color: #eb68af;
+  border-color: #eb68af;
+  color: #ffffff;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  color: #ffffff;
+  background-color: #ae40a5;
+  border-color: #ae40a5;
+}
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  background-image: none;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+  background-color: #666666;
+  border-color: #888888;
+}
+
+.commerce-add-to-cart .btn {
+  padding: 4px 8px;
+}
+
+/**
+ * Customize the carousel
+ */
+.carousel .container {
+  position: relative;
+  z-index: 9;
+  margin: 0; padding: 0;
+}
+.carousel-control {
+  height: 50px;
+  margin-top: 0px;
+  font-size: 40px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0,.6);
+  border: 0;
+  z-index: 10;
+  width: 8%;
+}
+.carousel-control.right,
+.carousel-control.left {
+}
+.carousel .item,
+.carousel img {
+  min-height: 320px;
+}
+#genericHeader.carousel .item,
+#genericHeader.carousel img {
+  height: 380px;
+}
+.carousel img {
+  position: absolute; top: 0; left: 0;
+  min-width: 100%;
+}
+.carousel-caption {
+  text-align: center;
+  background: rgba(255,255,255,.7);
+  max-width: 45%;
+  position: static;
+  padding: 10px 20px;
+  color: #444;
+  margin: 20px 0 0 40%;
+}
+#productCarousel .carousel-caption {
+  max-width: 32%;
+  padding: 10px 2%;
+  margin: 20px 32% 0 32%;
+}
+.carousel-caption h1,
+.carousel-caption .lead,
+.carousel-caption p:first {
+  margin: 0;
+  line-height: 1.25;
+  color: #FFF;
+  text-shadow: 0 1px 1px rgba(0,0,0,.4);
+}
+.carousel-caption h1 {
+  height: 50px;
+  margin-left: 0px;
+  font-size: 1.7em;
+  text-shadow: 0 1px 1px rgba(0,0,0,.4);
+  color: #eb68af;
+}
+.carousel-caption .btn {
+  margin-top: 10px;
+}
+.carousel-indicators li {
+  border-color: #ae40a5;
+  height: 15px;
+  width: 15px;
+}
+.carousel-indicators .active {
+  background-color: #eb68af;
+  height: 15px;
+  width: 15px;
+}
+
+
+/**
+ * Customize and overrides the list-groups.
+ */
+.categories-tree .list-group {
+  margin-bottom: 1em;
+}
+.categories-tree .list-group h3 {
+  color: #eb68af;
+}
+.categories-tree a.list-group-item {
+  padding: 5px 15px;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+    background-color: #eb68af;
+    border-color: #eb68af;
+    color: #fff;
+    z-index: 2;
 }

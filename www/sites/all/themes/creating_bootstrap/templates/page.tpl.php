@@ -4,10 +4,9 @@
  */
 ?>
 <header id="navbar" role="banner">
-  <div class="container">
-    <div class="navbar-header">
 
-
+  <div class="navbar-header">
+    <div class="container">
       <?php if (!empty($secondary_nav)): ?>
         <?php print render($secondary_nav); ?>
       <?php endif; ?>
@@ -15,10 +14,10 @@
       <?php if ($logo): ?>
       <figure class="logo">
         <?php if($is_front): ?>
-        <img src="/<?php print path_to_theme() . '/images/logo_simple.jpg'; ?>" alt="<?php print t('Home'); ?>" />
+        <img src="/<?php print path_to_theme() . '/logo.png'; ?>" alt="<?php print t('Home'); ?>" />
         <?php else: ?>
           <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home">
-            <img src="/<?php print path_to_theme() . '/images/logo_simple.jpg'; ?>" alt="<?php print t('Home'); ?>" />
+            <img src="/<?php print path_to_theme() . '/logo.png'; ?>" alt="<?php print t('Home'); ?>" />
           </a>
         <?php endif; ?>
       </figure>
@@ -26,24 +25,29 @@
 
       <ul class="social-links">
         <li><a class="facebook" href="https://www.facebook.com/creating.workshops" target="_blank">Facebook</a></li>
-        <li class="pipe">|</li>
-        <!--<li><a class="twitter" href="http://www.twitter.com" target="_blank">Twitter</a></li>
-        <li class="pipe">|</li>-->
+        <?php /* <li class="pipe">|</li>
+        <li><a class="twitter" href="http://www.twitter.com" target="_blank">Twitter</a></li>
+        <li class="pipe">|</li> */ ?>
         <li><a class="email" href="mailto:<?php print variable_get('site_mail', ''); ?>" target="_blank">Mail</a></li>
       </ul>
-
     </div>
-
-    <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-      <div class="navbar-collapse collapse">
-        <nav id="main-menu" role="navigation">
-          <?php if (!empty($primary_nav)): ?>
-            <?php print render($primary_nav); ?>
-          <?php endif; ?>
-        </nav>
-      </div>
-    <?php endif; ?>
   </div>
+
+  <?php if (!empty($header_carousel)) : ?>
+    <?php print $header_carousel; ?>
+  <?php endif; ?>
+
+  <?php if (!empty($primary_nav)): ?>
+  <div class="container">
+    <div class="navbar-collapse collapse">
+      <nav id="main-menu" role="navigation">
+        <?php if (!empty($primary_nav)): ?>
+          <?php print render($primary_nav); ?>
+        <?php endif; ?>
+      </nav>
+    </div>
+  </div>
+  <?php endif; ?>
 </header>
 
 <div class="main-container container">
@@ -69,7 +73,7 @@
         <div class="highlighted jumbotron"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
       <?php
-      /*if (!empty($breadcrumb)): print $breadcrumb; endif;*/
+      if (!empty($breadcrumb)): print $breadcrumb; endif;
       ?>
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
@@ -98,6 +102,18 @@
 
   </div>
 </div>
-<footer class="footer container">
-  <?php print render($page['footer']); ?>
+<footer class="footer">
+  <div class="container">
+    <?php print render($page['footer']); ?>
+
+    <?php if (!empty($footer_nav)): ?>
+    <nav class="doormat-menu" role="navigation">
+      <?php if (!empty($footer_nav)): ?>
+        <?php print render($footer_nav); ?>
+      <?php endif; ?>
+    </nav>
+    <?php endif; ?>
+
+    <p class="footer-link">Website by <a href="http://www.menhir.be">Menhir</a></p>
+  </div>
 </footer>

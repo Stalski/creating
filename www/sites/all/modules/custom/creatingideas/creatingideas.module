@@ -7,220 +7,425 @@
 
 
 /**
+ * @see hook_commerce_payment_method_info().
+ */
+module_load_include('inc', 'creatingideas', 'includes/payment');
+
+/**
+ * @see hook_commerce_shipping_method_info().
+ */
+module_load_include('inc', 'creatingideas', 'includes/shipping');
+
+/**
+ * Implements hook_theme().
+ */
+function creatingideas_theme($existing, $type, $theme, $path) {
+
+  return array(
+    'creatingideas_product_category_tree' => array(
+      'variables' => array('items' => array()),
+      'file' => 'theme.inc',
+      'path' => "$path/theme",
+      'template' => 'creatingideas-product-category-tree',
+    ),
+    'creatingideas_product_carousel' => array(
+      'variables' => array('items' => array()),
+      'file' => 'theme.inc',
+      'path' => "$path/theme",
+      'template' => 'creatingideas-product-carousel',
+    ),
+  );
+
+}
+
+/**
  * Implements hook_field_formatter_info().
  */
 function creatingideas_field_formatter_info() {
   return array(
-    'level_of_difficulty' => array(
-      'label' => t('Level of difficulty'),
-      'field types' => array(),
-      'settings' => array(
-      ),
+    'creating_dimensions_short' => array(
+      'label' => t('Formatted dimensions (A cm)'),
+      'field types' => array('physical_dimensions'),
+      'settings' => array(),
+    ),
+    'creating_dimensions_formatted' => array(
+      'label' => t('Formatted dimensions (A x B cm)'),
+      'field types' => array('physical_dimensions'),
+      'settings' => array(),
     ),
   );
-}
-
-/**
- * Implements hook_field_formatter_settings_form().
- */
-function creatingideas_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
-  $display = $instance['display'][$view_mode];
-  $settings = $display['settings'];
-
-  $element = array();
-
-  if (strpos($display['type'], '_trimmed') !== FALSE) {
-    $element['trim_length'] = array(
-      '#title' => t('Trim length'),
-      '#type' => 'textfield',
-      '#size' => 10,
-      '#default_value' => $settings['trim_length'],
-      '#element_validate' => array('element_validate_integer_positive'),
-      '#required' => TRUE,
-    );
-  }
-
-  return $element;
-}
-
-/**
- * Implements hook_field_formatter_settings_summary().
- */
-function creatingideas_field_formatter_settings_summary($field, $instance, $view_mode) {
-  $display = $instance['display'][$view_mode];
-  $settings = $display['settings'];
-  $summary = array();
-
-  if ($display['type'] == 'creatingideas' || $display['type'] == 'colorbox_link') {
-    $entity_info = entity_get_info('file');
-    $options = array('default' => t('Default'));
-    foreach ($entity_info['view modes'] as $file_view_mode => $file_view_mode_info) {
-      $options[$file_view_mode] = $file_view_mode_info['label'];
-    }
-    if ($display['type'] == 'creatingideas') {
-      if (isset($options[$settings['file_view_mode']])) {
-        $summary[] = t('File view mode: @style', array('@style' => $options[$settings['file_view_mode']]));
-      }
-      else {
-        $summary[] = t('File view mode: none');
-      }
-    }
-
-    //settings for colorbox_link
-    if($display['type'] == 'colorbox_link'){
-      if($field['type'] == 'text'){
-        $summary[] = t('Text format: @style', array('@style' => $settings['text_format']));
-      }elseif($field['type'] == 'image'){
-        $summary[] = t('Image style: @style', array('@style' => $settings['image_style']));
-      }
-    }
-
-    if (isset($options[$settings['colorbox_view_mode']])) {
-      $summary[] = t('Colorbox view mode: @style', array('@style' => $options[$settings['colorbox_view_mode']]));
-    }
-    else {
-      $summary[] = t('Colorbox view mode: none');
-    }
-
-    if (isset($settings['fixed_width'])) {
-      $summary[] = t('Fixed Width: @dimensions', array('@dimensions' => $settings['fixed_width']));
-    }
-
-    if (isset($settings['fixed_height'])) {
-      $summary[] = t('Fixed Height: @dimensions', array('@dimensions' => $settings['fixed_height']));
-    }
-
-    $gallery = array(
-      'post' => t('Per post gallery'),
-      'page' => t('Per page gallery'),
-      'field_post' => t('Per field in post gallery'),
-      'field_page' => t('Per field in page gallery'),
-      'custom' => t('Custom'),
-      'none' => t('No gallery'),
-    );
-    if (isset($settings['colorbox_gallery'])) {
-      $summary[] = t('Colorbox gallery type: @type', array('@type' => $gallery[$settings['colorbox_gallery']])) . ($settings['colorbox_gallery'] == 'custom' ? ' (' . $settings['colorbox_gallery_custom'] . ')' : '');
-    }
-    //custom caption field
-    $caption = array(
-      'title' => t('Title text'),
-      'mediafield' => t('File Type text field'),
-      'none' => t('None'),
-    );
-    if (isset($settings['colorbox_caption'])) {
-      $summary[] = t('Colorbox caption: @type', array('@type' => $caption[$settings['colorbox_caption']]));
-    }
-    $summary[] = t('Audio Playlist: @value', array('@value' => (isset($settings['audio_playlist']) && $settings['audio_playlist']) ? t('Enabled') : t('Disabled')));
-  }
-
-  return implode('<br />', $summary);
 }
 
 /**
  * Implements hook_field_formatter_view().
  */
 function creatingideas_field_formatter_view($entity_type, $entity, $field, $instances = NULL, $langcode = NULL, $items = NULL, $display = NULL) {
+
+  $settings = array_merge(field_info_formatter_settings($display['type']), $display['settings']);
+
   $element = array();
-  GLOBAL $nid;
-  $nid=1;
-  if(isset($entity->nid)) {//file embedded in node
-    $nid = $entity->nid;
-  }elseif(isset($entity->fid) && $nid != 1){
-    $nid = $entity->fid;
-  }
 
-  if($display['type'] == 'colorbox_link'){
+  // Loop through each item in this field.
+  foreach ($items as $delta => $item) {
+    // Generate the HTML based on the formatter.
+    switch ($display['type']) {
 
-    foreach ($items as $delta => $item) {
-      $file_id = NULL;
-      $colorbox_field_caption_value = '';
-      if($entity_type == 'file'){
-        $file_id = $entity->fid;
-        $colorbox_caption_var_name = 'creatingideas_' . $entity->type . '_caption_field_name';
-        $colorbox_caption_field_name = variable_get($colorbox_caption_var_name);
-        $colorbox_field_caption_value = NULL;
+      case 'creating_dimensions_formatted':
 
-        if (isset($items[0]{$colorbox_caption_field_name})){
-          $colorbox_field_caption_value = isset($items[0]{$colorbox_caption_field_name}['und'][0]) ?
-          $items[0]{$colorbox_caption_field_name}['und'][0]['value'] : NULL;
+        $data = array();
+        $dimensions = array(
+          'length' => array(
+            'name' => t('Length'),
+          ),
+          'width' => array(
+            'name' => t('Width'),
+          ),
+        );
+        foreach ($dimensions as $key => $dimension) {
+          $data[] = round($item[$key], 5);
         }
-      }
-      $render_array = array();
-      $display['type'] = 'default_formatter';
-      $formatter_type = field_info_formatter_types($display['type']);
-      $display['module'] = $formatter_type['module'];
 
-      $render_array = field_view_field($entity_type, $entity, $field['field_name'], $display, $langcode);
-      $render_array['#label_display'] = 'hidden';//always set to hidden, label will appear outside of link if set to be visisble
+        // The rounded values joined together with the unit abbreviation appended.
+        $html = implode(' &times; ', $data) . ' ' . t('cm');
+        break;
 
-      $element[$delta] = array(
-        '#theme' => 'creatingideas',
-        '#entity_id' => $nid,
-        '#item' => $render_array,
-        '#field' => $field,
-        '#display_settings' => $display['settings'],
-        '#langcode' => $langcode,
-        '#path' => 'creatingideas/' . $file_id . '/' . $display['settings']['colorbox_view_mode'] . '/' . $langcode,
-        //this is where Media is being added as the title attribute
-        '#title' => isset($entity->filename) ? strip_tags($entity->filename) : NULL,
-        '#creatingideas_caption' => $colorbox_field_caption_value,
-      );
+      case 'creating_dimensions_short':
+
+        $data = array();
+        $data[] = round($item['length'], 5);
+        // The rounded values joined together with the unit abbreviation appended.
+        $html = ' &times; ' . $data[0] . ' ' . t('cm');
+        if (!empty($display) && isset($display['views_view']) && isset($display['views_view']->result[$display['views_row_id']]->commerce_line_item_field_data_commerce_line_items_quantity)) {
+          $quantity = $display['views_view']->result[$display['views_row_id']]->commerce_line_item_field_data_commerce_line_items_quantity;
+          $html .= ' = <strong>' . $quantity * $data[0] . t('cm') . '</strong>';
+        }
+        break;
     }
+
+    // Add the link to the returned element array.
+    $element[$delta] = array(
+      '#markup' => $html,
+    );
   }
 
-  //the $field won't be set if being formatted by file_entity_file_formatter_file_field_view
-  if(!isset($field) && ($display['type'] == 'creatingideas' || $display['type'] == 'colorbox_link')) {//standalone entity
-    $colorbox_caption_var_name = 'creatingideas_' . $items[0]['type'] . '_caption_field_name';
-    $colorbox_caption_field_name = variable_get($colorbox_caption_var_name);
-    $colorbox_field_caption_value = NULL;
-
-    if (isset($items[0]{$colorbox_caption_field_name})){
-      $colorbox_field_caption_value = isset($items[0]{$colorbox_caption_field_name}['und'][0]) ?
-      $items[0]{$colorbox_caption_field_name}['und'][0]['value'] : NULL;
-    }
-    //get attributes for item to use on item and wrapping link
-    $class = isset($items[0]['override']['class']) ? $items[0]['override']['class'] : NULL;
-    $style = isset($items[0]['override']['style']) ? $items[0]['override']['style'] : NULL;
-
-    //variable array for theme_creatingideas
-    $element[0] = array(
-        '#theme' => 'creatingideas',
-        '#item_class' => $class,
-        '#item_style' => isset($items[0]['override']['style']) ? $items[0]['override']['style'] : NULL,
-        '#entity_id' => $nid,
-        '#file_id' => $entity->fid,
-        '#field' => $field,
-        '#display_settings' => $display['settings'],
-        '#langcode' => $langcode,
-        '#path' => 'creatingideas/' . $entity->fid . '/' . $display['settings']['colorbox_view_mode'] . '/' . $langcode,
-        '#title' => isset($instances['label']) ? strip_tags($instances['label']) : NULL,
-        '#creatingideas_caption' => $colorbox_field_caption_value,
-      );
-  }
-  elseif ($display['type'] == 'creatingideas') {//file field on another entity, $field is set
-
-    foreach ($items as $delta => $item) {
-      $colorbox_caption_var_name = 'creatingideas_' . $item['type'] . '_caption_field_name';
-      $colorbox_caption_field_name = variable_get($colorbox_caption_var_name);
-      $colorbox_field_caption_value = NULL;
-
-      if (isset($item{$colorbox_caption_field_name})){
-        $colorbox_field_caption_value = isset($item{$colorbox_caption_field_name}['und'][0]) ?
-        $item{$colorbox_caption_field_name}['und'][0]['value'] : NULL;
-      }
-      $element[$item['fid']] = array(
-        '#theme' => 'creatingideas',
-        '#entity_id' => $nid,
-        '#file_id' => $item['fid'],
-        '#field' => $field,
-        '#display_settings' => $display['settings'],
-        '#langcode' => $langcode,
-        '#path' => 'creatingideas/' . $item['fid'] . '/' . $display['settings']['colorbox_view_mode'] . '/' . $langcode,
-        //this is where Media is being added as the title attribute
-        '#title' => isset($instances['label']) ? strip_tags($instances['label']) : NULL,
-        '#creatingideas_caption' => $colorbox_field_caption_value,
-      );
-    }
-  }
   return $element;
+}
+
+/**
+ * Implements hook_form_alter().
+ * @param type $form
+ * @param type $form_state
+ */
+function creatingideas_form_views_content_views_content_type_edit_form_alter(&$form, &$form_state) {
+
+  $form['override_title_element'] = array(
+    '#type' => 'textfield',
+    '#default_value' => empty($form_state['conf']['override_title_element']) ? 'h2' : $form_state['conf']['override_title_element'],
+    '#title' => t('Override title element'),
+    '#id' => 'override-title-element',
+    '#weight' => -1,
+  );
+  $form['#submit'][] = 'creatingideas_form_views_content_views_content_type_edit_form_submit';
+}
+
+/**
+ * Extra submit handler to save extra config for the content type (views type).
+ * @param type $form
+ * @param array $form_state
+ */
+function creatingideas_form_views_content_views_content_type_edit_form_submit($form, &$form_state) {
+  $form_state['conf']['override_title_element'] = $form_state['values']['override_title_element'];
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ * @param type $owner
+ * @param type $api
+ * @return type
+ */
+function creatingideas_ctools_plugin_api($owner, $api) {
+  if ($owner == 'creatingideas' && $api == 'plugins') {
+    return array('version' => 2);
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function creatingideas_ctools_plugin_directory($owner, $plugin_type) {
+  if (($owner == 'creatingideas' || $owner == 'ctools') && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ * Implementation of hook_commerce_price_component_type_info().
+ * Creates a new discount price component type
+ */
+function creatingideas_commerce_price_component_type_info(){
+  return array(
+    'volume_discount' => array(
+      'title' => t('Volume Discount'),
+      'weight' => -10,
+    ),
+  );
+}
+
+/**
+ * Implements hook_commerce_discount_offer_type_info().
+ */
+function creatingideas_commerce_discount_offer_type_info() {
+  $types = array();
+  $types['volume_discount_amount'] = array(
+    'label' => t('Volume discount per meter'),
+    'action' => 'creatingideas_volume_discount_amount',
+    'entity types' => array('commerce_order'),
+  );
+
+  return $types;
+}
+
+/**
+ * Implements hook_entity_view().
+ *
+ * Add the offsite header on the Order View at the user page.
+ */
+function creatingideas_entity_view($entity, $type, $view_mode, $langcode) {
+  if ($type == 'commerce_order') {
+    if ($entity->status == 'pending' && $entity->data['payment_method'] == 'offsite|commerce_payment_offsite') {
+      $entity->content['creatingideas_header'] = array(
+        '#markup' => '<div class="commerce-offsite-header">' . creatingideas_make_header($entity) . '</div>',
+        '#weight' => -11,
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_commerce_checkout_pane_info_alter().
+ */
+function creatingideas_commerce_checkout_pane_info_alter(&$checkout_panes) {
+
+  $order_id = arg(1);
+  if (arg(0) != 'checkout' || !is_numeric($order_id)) {
+    return;
+  }
+
+  $order = commerce_order_load($order_id);
+
+  if (!empty($order->data) && !empty($order->data['payment_method']) &&
+      $order->data['payment_method'] == 'offsite|commerce_payment_offsite') {
+
+    $checkout_panes['checkout_completion_message']['callbacks']['checkout_form'] = 'creatingideas_completion_message_pane_checkout_form';
+  }
+}
+
+/**
+ * Implements hook_commerce_payment_method_info().
+ */
+function creatingideas_commerce_payment_method_info() {
+
+  $methods = array();
+
+  $methods['offsite'] = array(
+    'base' => 'creatingideas_offsite',
+    'title' => t('Offsite Payment info'),
+    'short_title' => t('Offsite Payment'),
+    'display_title' => t('Offsite Payment Info'),
+    'description' => t('Show Payment Information for offsite payment methods'),
+  );
+
+  return $methods;
+
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function creatingideas_form_rules_ui_edit_element_alter(&$form, &$form_state) {
+  // Reconstruct form only when ajax triggers it.
+  if (!empty($form_state['triggering_element']['#submit'][0])) {
+    $trigger = $form_state['triggering_element']['#submit'][0];
+    $ajax_triggers = array('creatingideas_offsite_add_more_add_details', 'creatingideas_offsite_add_more_remove_details');
+
+    if (in_array($trigger, $ajax_triggers)) {
+      $settings = $form_state['values']['parameter']['payment_method']['settings']['payment_method']['settings'];
+      $form['parameter']['payment_method']['settings']['payment_method']['settings'] = creatingideas_settings_form($settings);
+    }
+  }
+}
+
+/**
+ * Implements hook_commerce_shipping_method_info().
+ */
+function creatingideas_commerce_shipping_method_info() {
+  $shipping_methods = array();
+
+  $shipping_methods['creating_flat_rate'] = array(
+    'title' => t('Creating flat rate'),
+    'description' => t('Defines a single flat rate method.'),
+  );
+
+  return $shipping_methods;
+}
+
+/**
+ * Implements hook_commerce_shipping_service_info().
+ */
+function creatingideas_commerce_shipping_service_info() {
+  $shipping_services = array();
+
+  $shipping_services['creating_flat_free'] = array(
+    'title' => t('I will pick it up myself'),
+    'description' => t('I will pick it up myself'),
+    'display_title' => t('Free'),
+    'shipping_method' => 'creating_flat_rate',
+    'price_component' => 'shipping',
+    'callbacks' => array(
+      'rate' => 'creatingideas_rate_free',
+    ),
+  );
+
+  $shipping_services['creating_flat_bpost'] = array(
+    'title' => t('You can send it with Bpost'),
+    'description' => t('A flat rate service with Bpost.'),
+    'display_title' => t('Bpost'),
+    'shipping_method' => 'creating_flat_rate',
+    'price_component' => 'shipping',
+    'callbacks' => array(
+      'rate' => 'creatingideas_rate_bpost',
+      //'details_form' => 'creatingideas_rate_free_details_form',
+      //'details_form_validate' => 'creatingideas_rate_free_details_form_validate',
+      //'details_form_submit' => 'creatingideas_rate_free_details_form_submit',
+    ),
+  );
+
+  return $shipping_services;
+}
+
+/**
+ * Implements hook_commerce_line_item_type_info().
+ */
+/*function creatingideas_commerce_line_item_type_info() {
+}*/
+
+
+function creatingideas_form_alter(&$form, $form_state, $form_id) {
+  //dsm($form_id);
+}
+
+/**
+ * Implements hook_form_<commerce_product_ui_product_form>_alter().
+ * @param type $form
+ * @param type $form_state
+ */
+function creatingideas_form_commerce_product_ui_product_form_alter(&$form, $form_state) {
+  //dsm($form['commerce_stock']['und'][0]['value'], 'Stock');
+}
+
+/**
+ * Implements hook_form_<sewing_kit_display_node_form>_alter().
+ */
+function creatingideas_form_sewing_kit_display_node_form_alter(&$form, $form_state) {
+  _creatingideas_change_node_products_display_form($form, $form_state);
+}
+
+/**
+ * Implements hook_form_<cloth_display_node_form>_alter().
+ */
+function creatingideas_form_cloth_display_node_form_alter(&$form, $form_state) {
+  _creatingideas_change_node_products_display_form($form, $form_state);
+}
+
+/**
+ * Implements hook_form_<voucher_display_node_form>_alter().
+ */
+function creatingideas_form_voucher_display_node_form_alter(&$form, $form_state) {
+  _creatingideas_change_node_products_display_form($form, $form_state);
+}
+
+/**
+ * Helper function to change the node form for product displays.
+ * @param type $form
+ * @param type $form_state
+ */
+function _creatingideas_change_node_products_display_form(&$form, $form_state) {
+
+  // Remove or hide all the irrelevant wrappers.
+  if (isset($form['field_products']['und']['form'])) {
+    unset($form['field_products']['und']['form']['product_details']);
+    $form['field_products']['und']['#title'] = '';
+    $form['field_products']['und']['#type'] = 'container';
+  }
+
+}
+
+/**
+ * Implements hook_commerce_cart_line_item_refresh().
+ * @param type $line_item
+ * @param type $order_wrapper
+ */
+function creatingideas_commerce_cart_line_item_refresh($line_item, $order_wrapper) {
+
+}
+
+/**
+ * Implements hook_commerce_cart_order_refresh().
+ * @param type $order_wrapper
+ *
+ * The "Volume discount" is calculated here to show the user. In the checkout
+ * process there is a rule to catch it as a real discount.
+ */
+function creatingideas_commerce_cart_order_refresh($order_wrapper) {
+  //dsm('creatingideas_commerce_cart_order_refresh not used');
+}
+
+/**
+ * Helper function to calculate the total price of a line item.
+ * @param type $line_item_wrapper
+ */
+function _creatingideas_calculate_line_item_total_price($line_item_wrapper) {
+
+  // Only calculate if the product type is cloth, meaning it works with physical
+  // dimensions.
+  if (!isset($line_item_wrapper->commerce_product) || $line_item_wrapper->commerce_product->value()->type != 'cloth') {
+    return NULL;
+  }
+
+  // Get the product to have the price per meter.
+  $line_item = $line_item_wrapper->value();
+  $product = $line_item_wrapper->commerce_product->value();
+  $product_wrapper = entity_metadata_wrapper('commerce_product', $product);
+  $has_price_per_meter = $product_wrapper->field_price_per_meter->value();
+
+  // Calculate the relation to meter. Exit if no length is known or the length
+  // matches 1 meter exactly.
+  $dimensions = $product_wrapper->field_dimensions->value();
+  if (empty($dimensions['length']) || $dimensions['length'] == 100) {
+    return NULL;
+  }
+  $relation_to_meter = 100 / $dimensions['length'];
+
+  // Prepare logic for the total discount on the line item for 1 meter.
+  $discount_quantity = floor($line_item_wrapper->quantity->value() / $relation_to_meter);
+  $discount_left_over = $line_item_wrapper->quantity->value() % $relation_to_meter;
+
+  // Prepare the base price to work with.
+  $price = $line_item_wrapper->commerce_unit_price->amount->value();
+
+  if (!empty($has_price_per_meter)) {
+    $price_per_meter = $product_wrapper->field_price_per_meter->amount->value();
+    if ($price_per_meter != $price) {
+      $new_total = ($discount_quantity * $price_per_meter) + ($discount_left_over * $price);
+    }
+    else {
+      $new_total = ($line_item_wrapper->quantity->value() * $price);
+    }
+  }
+  else {
+    $new_total = ($discount_quantity * $relation_to_meter * $price) + ($discount_left_over * $price);
+  }
+
+  return $new_total;
+
 }

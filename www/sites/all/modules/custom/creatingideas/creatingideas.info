@@ -2,4 +2,10 @@ name = Creating Ideas (custom code)
 description = Custom code for Creating Ideas website.
 core = 7.x
 package = Other
+
+configure = admin/commerce/config/payment-methods/manage/commerce_payment_offsite
+
 dependencies[] = ctools
+dependencies[] = commerce
+dependencies[] = rules
+dependencies[] = commerce_physical

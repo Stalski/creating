@@ -204,7 +204,6 @@ function commerce_shipping_rate_apply($order, $service_name = NULL) {
     $service_name = key($order->shipping_rates);
   }
 
-
   // Delete any existing shipping line items from the order.
   commerce_shipping_delete_shipping_line_items($order, TRUE);
 
@@ -218,6 +217,7 @@ function commerce_shipping_rate_apply($order, $service_name = NULL) {
 
   // Save and add the line item to the order.
   commerce_shipping_add_shipping_line_item($line_item, $order, TRUE);
+  
 }
 
 /**

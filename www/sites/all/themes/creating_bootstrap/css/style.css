@@ -1,3 +1,4 @@
+/*
 @font-face {
   font-family: 'Exo';
   font-style: normal;
@@ -45,9 +46,11 @@
   font-style: italic;
   font-weight: 700;
   src: local('Exo Bold Italic'), local('Exo-BoldItalic'), url(http://themes.googleusercontent.com/static/fonts/exo/v1/ENjw15vOU74UM6LyiOhPTnYhjbSpvc47ee6xR_80Hnw.woff) format('woff');
+}*/
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
 }
-
-
 ul, ol, li,
 h1, h2, h3, h4, h5, h6,
 pre, form, body, html,
@@ -70,17 +73,23 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: #d70e7b;
+  color: #ae40a5;
 }
 h1, .main h1 {
   color: #eb68af;
-  font-size: 1.5em;
-  margin: 0;
+  font-size: 1.6em;
+  margin: .1em 0 .2em 0;
   padding: .3em 0;
   line-height: 1.5;
-  font-family: "Exo", "Myriad Pro", Arial, Helvetica, sans-serif;
+  font-family: "Exo", Arial, Helvetica, sans-serif;
   font-weight: 500;
   -webkit-text-stroke-width: 0.2px;
+}
+h1.block-title {
+  margin-bottom: 0.4em;
+  margin-top: 0.1em;
+  padding-top: 0.3em;
+  padding-bottom: 0;
 }
 h2,
 h2.block-title,
@@ -89,11 +98,11 @@ h2.pane-title {
   font-size: 1.4em;
   line-height: 1.5em;
   font-weight: 500;
-  margin:  0;
+  margin:  .3em 0;
   padding: .3em 0;
 }
 h3 {
-  color: #ae40a5; /* paars */
+  color: #eb68af; /* pink */
   font-size: 1.1em;
   line-height: 1.5em;
   font-weight: 500;
@@ -126,11 +135,35 @@ blockquote {
 div.label-above {
   font-weight: bold;
 }
-/*
-#content h2 {
-  color: #eb68af;
-}*/
 
+.view-content .row {
+  margin-bottom: 20px;
+}
+
+.full-price {
+  font-size: 1.7em;
+  margin: 0;
+}
+
+.teaser-price {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.more-link {
+  margin-top: 10px;
+}
+
+.more-link a {
+  padding: 8px 14px 8px 18px;
+  font-size: 17px;
+  background: url('../images/magenta-arrow.gif') 0 50% no-repeat;
+}
+
+.view-display-id-featured_content .media-left img {
+  max-width: 100px;
+}
 
 .main {
   /*background: #FFFFFF;*/
@@ -146,10 +179,10 @@ div.label-above {
   font-size: 30px;
   color: #545454;
   font-weight: 100;
-  font-family: "Exo", "Myriad Pro", Arial, Helvetica, sans-serif;
+  font-family: "Exo", Arial, Helvetica, sans-serif;
 }
 .pane-content {
-  margin: 10px 0;
+  margin: 0;
 }
 .views-row {
   border-bottom: 1px solid #ccc;
@@ -365,6 +398,103 @@ div.pane-content div.view-mode-slideshow {
 }
 
 
+
+/**
+ * List group (items).
+ */
+.view-workshops .list-group-item {
+  list-style: none;
+  list-style-type: none;
+}
+.view-workshops .list-group-item a,
+.view-workshops .list-group-item span.date-display-single {
+  display: block;
+  width: 200px;
+}
+.view-workshops .list-group-item a {
+  float: left;
+}
+.view-workshops .list-group-item span.date-display-single {
+  margin-left: 210px;
+}
+.pane-workshops {
+  margin-bottom: 20px;
+}
+
+
+/**
+ * Customize calendar.
+ */
+.calendar-calendar .month-view .full td.single-day div.monthview,
+.calendar-calendar .week-view .full td.single-day div.weekview,
+.calendar-calendar .day-view .full td.single-day div.dayview {
+  background:  none repeat scroll 0 0 #ffccff;
+}
+.calendar-calendar .day-view td .stripe,
+.calendar-calendar .month-view .full td .stripe,
+.calendar-calendar .week-view .full td .stripe {
+  height: 0px;
+  border: none 0;
+}
+.calendar-calendar .month-view .full tr td.today,
+.calendar-calendar .month-view .full tr.odd td.today,
+.calendar-calendar .month-view .full tr.even td.today,
+.calendar-calendar .month-view .full tr td.single-day.today,
+.calendar-calendar .month-view .full td.date-box.today {
+  background-color: #c3d6e4;
+  border: none 0;
+}
+.view .date-nav-wrapper .date-heading h3 {
+  display: none;
+}
+.view .date-nav-wrapper .date-prev {
+  left: 0;
+  right: auto;
+  background: none;
+}
+.view .date-nav-wrapper .date-next {
+  background: none;
+}
+
+
+/**
+ * Product carousel.
+ */
+#productCarousel {
+  margin-bottom: 25px;
+}
+
+/**
+ * Hidden html.
+ */
+.form-item-commerce-payment-payment-method {
+  display: none;
+}
+
+/**
+ * Cart, checkout, shipping service ...
+ */
+#edit-commerce-shipping-shipping-service {
+  position: relative;
+  margin-bottom: 20px;
+  clear: both;
+  float: left;
+  width: 100%;
+}
+#edit-commerce-shipping-shipping-service .form-item-commerce-shipping-shipping-service {
+  width: 29%;
+  height: auto;
+  margin: 0 1%;
+  padding: 1em 1%;
+  float: left;
+  border-radius:0 4px 4px;
+  -webkit-box-shadow:0 1px 1px rgba(0,0,0,.05);
+  -moz-box-shadow:0 1px 1px rgba(0,0,0,.05);
+  box-shadow:0 1px 1px rgba(0,0,0,.05);
+  border:1px solid #ddd;
+}
+
+
 /**
  * varia
  */
@@ -393,4 +523,25 @@ body.node-type-workshop span.date-display-single {
 }
 .page-naaipakketten .view-panopoly-widgets-general-content .views-row-last {
   margin-right: 0px;
+}
+
+.commerce-line-item-views-form .views-field-field-leading-image {
+  width: 95px;
+}
+.btn-success {
+  font-size: 0.9em;
+}
+.more-link {
+  text-align: right;
+}
+.more-link a {
+  font-size: 1.2em;
+}
+
+.commerce_payment blockquote {
+  font-size: 15px;
+}
+
+h3 span.date-display-single {
+  color: #545454;
 }

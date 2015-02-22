@@ -1,28 +1,10 @@
-/*
-#main-menu ul.nav li a {
-  float: left;
-  display: block;
-  color: #545454;
-  text-decoration: none;
-  font-family: "Cabin Condensed", "Myriad Pro", Arial, Helvetica, sans-serif;
-  font-weight: 500;
-  padding: 6px 0 6px;
-  border: 0;
-  border-top: 3px solid transparent;
-  outline: 0;
-  margin: 0 17px;
-  list-style-type: none;
-  font-size: 1em;
-  text-transform: uppercase;
-}
-#main-menu ul.nav li a:active,
-#main-menu ul.nav li a:hover,
-#main-menu ul.nav li a.active {
-  color: #545454;
-  border: 0;
-  border-top: 3px solid #eb68af;
-}*/
 
+.doormat-menu .navbar-nav > li > a,
+#main-menu .nav > li > a {
+  font-size: 1.2em;
+  padding-right: 20px;
+  padding-left: 20px;
+}
 
 /**
  * Secundary links
@@ -30,15 +12,24 @@
 ul.secondary {
   float: right;
   width: 350px;
-  margin-top: 60px;
-  margin-right: 45px;
+  margin-top: 0px;
+  margin-right: 50px;
 }
 ul.secondary li {
   float: right;
   list-style: none;
   list-style-type: none;
   list-style-image: none;
-  margin: 0 8px;
+  margin: 0;
+  padding: 0;
+}
+
+ul.secondary li a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 7px;
+  padding-left: 7px;
+  font-size: 1em;
 }
 
 /**
@@ -46,7 +37,7 @@ ul.secondary li {
  */
 ul.social-links {
   position: absolute;
-  top: 75px; right: 15px;
+  top: 10px; right: 15px;
   margin: 0; padding: 0;
   list-style: none;
 }
@@ -74,4 +65,30 @@ ul.social-links li a.facebook {
 }
 ul.social-links li a.email {
   background: transparent url('../images/social-pink.png') -92px 0 no-repeat;
+}
+
+/**
+ * Footer menu
+ */
+.doormat-menu ul.navbar-nav {
+  float: none;
+  margin-top: 20px;
+}
+.doormat-menu > .nav > li > a {
+  margin-right: 40px;
+  font-size: 1.1em;
+}
+.doormat-menu .nav > li > a:hover,
+.doormat-menu .nav > li >  a:focus,
+.doormat-menu .nav > li >  a:active {
+  background-color: transparent;
+}
+
+
+/**
+ * Website by
+ */
+p.footer-link {
+  margin: 10px 10px 10px auto;
+  text-align: right;
 }

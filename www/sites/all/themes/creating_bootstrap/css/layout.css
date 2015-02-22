@@ -12,7 +12,10 @@ header#navbar,
 .page,
 footer {
   margin: 0 auto;
-  width: 960px;
+  /*width: 960px;*/
+}
+.navbar-header {
+  margin-bottom: 10px;
 }
 header#navbar {
   background-color: #FFF;
@@ -24,15 +27,19 @@ header#navbar {
 }
 
 header#navbar .container {
-  width: 100%;
   position: relative;
 }
 .logo {
   margin: 0;
-  padding: 25px 0 0px;
+  padding: 10px 0 0px;
 }
 .head-content {
   position: relative;
   float: none;
   clear: both;
+}
+
+.footer {
+  background-color: #333;
+  margin-top: 50px;
 }

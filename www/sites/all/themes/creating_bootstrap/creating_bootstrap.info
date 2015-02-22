@@ -15,6 +15,9 @@ regions[sidebar_second] = 'Secondary'
 regions[content_bottom] = 'Content Bottom'
 regions[footer]         = 'Footer'
 
+; Panels layouts
+plugins[panels][layouts] = layouts
+
 ; Stylesheets
 stylesheets[all][] =  less/style.less
 
@@ -37,8 +40,6 @@ less[vars][@border-radius-small]      = 3px
 less[vars][@font-family-sans-serif]   = "Helvetica Neue", Helvetica, Arial, sans-serif
 less[vars][@font-family-serif]        = Georgia, "Times New Roman", Times, serif
 
-; Scripts
-;scripts[] = 'js/creating-bootstrap.js'
 
 ;**********************************
 ; METHOD 1: Bootstrap Source Files
@@ -46,9 +47,9 @@ less[vars][@font-family-serif]        = Georgia, "Times New Roman", Times, serif
 ;
 ; ; Scripts
 ; scripts[] = 'bootstrap/js/affix.js'
-; scripts[] = 'bootstrap/js/alert.js'
-; scripts[] = 'bootstrap/js/button.js'
-; scripts[] = 'bootstrap/js/carousel.js'
+scripts[] = 'bootstrap/js/alert.js'
+scripts[] = 'bootstrap/js/button.js'
+scripts[] = 'bootstrap/js/carousel.js'
 scripts[] = 'bootstrap/js/collapse.js'
 scripts[] = 'bootstrap/js/dropdown.js'
 scripts[] = 'bootstrap/js/modal.js'
@@ -57,6 +58,10 @@ scripts[] = 'bootstrap/js/popover.js'
 ; scripts[] = 'bootstrap/js/scrollspy.js'
 scripts[] = 'bootstrap/js/tab.js'
 scripts[] = 'bootstrap/js/transition.js'
+
+
+; Scripts
+scripts[] = 'js/scripts.js'
 
 ; ; Settings inherited by base theme, uncomment to override.
 ; settings[toggle_name] = 1
