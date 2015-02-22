@@ -1,0 +1,115 @@
+#bpost-shipping-services {
+  clear: both;
+  margin: 10px 0;
+}
+
+#edit-commerce-shipping-shipping-service,
+#commerce-shipping-service-details {
+  clear: both;
+
+}
+#commerce-checkout-form-shipping {
+  label[for="edit-commerce-shipping-shipping-service-bpost-home"],
+  label[for="edit-commerce-shipping-shipping-service-bpost-postoffice-postpoint"],
+  label[for="edit-commerce-shipping-shipping-service-bpost-bpack"],
+  label[for="edit-commerce-shipping-shipping-service-bpost-world"] {
+    background: url("../images/bpost_logo.png") 4px center no-repeat;
+    padding-left: 40px;
+  }
+}
+
+.form-item-commerce-shipping-shipping-service {
+  .description {
+    margin-left: 1.1em;
+  }
+}
+
+.responsive-layout-mobile {
+  &.page-checkout-shipping {
+    .form-item-commerce-shipping-shipping-service {
+      width: auto;
+    }
+  }
+}
+
+#delivery-parcel-automate {
+  border: 1px solid #c2c2c2;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
+  clear: both;
+  margin: 15px 0;
+  padding: 15px 10px;
+
+  &:before,
+  &.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+  }
+  &:after {
+    clear: both;
+  }
+  /**
+  * For IE 6/7 only
+  * Include this rule to trigger hasLayout and contain floats.
+  */
+  *zoom: 1;
+}
+.responsive-layout-mobile {
+  #delivery-parcel-automate {
+    border: 0;
+    padding: 0;
+  }
+}
+
+table.schedule {
+  border: 1px solid #CCC;
+  margin-bottom: 5px;
+  tr {
+    font-size: 11px;
+    &.odd {
+      background: #EEE;
+    }
+    &.even {
+      background: white;
+    }
+    td {
+      &.day {
+        border-right: 1px solid #CCC;
+        font-weight: bold;
+      }
+      &.time {
+
+      }
+    }
+  }
+}
+
+.page-checkout-review #commerce-checkout-form-review {
+  .checkout_review {
+    #bpost-shipping {
+      .item-list {
+        font-weight: bold;
+        ul {
+          li {
+            margin: 0;
+          }
+        }
+      }
+    }
+    table.schedule {
+      width: auto !important;
+      tbody {
+        tr {
+          &.odd {
+            background: #EEE !important;
+          }
+          &.even {
+            background: white !important;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+<?php
+
+
+/**
+ * Enable featured page module.
+ */
+function creatingideas_update_7000() {
+  module_enable(array('featured_page'));
+}

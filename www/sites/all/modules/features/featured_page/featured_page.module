@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * Code for the Featured page with header feature.
+ */
+
+include_once 'featured_page.features.inc';
+
+/**
+ * Implements hook_theme().
+ */
+function featured_page_theme($existing, $type, $theme, $path) {
+
+  return array(
+    'featured_page_header_carousel' => array(
+      'variables' => array('items' => array()),
+      'file' => 'theme.inc',
+      'path' => "$path/theme",
+      'template' => 'featured-page-header-carousel',
+    )
+  );
+
+}

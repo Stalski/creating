@@ -1,0 +1,70 @@
+#bpost-shipping-services {
+  clear: both;
+  margin: 10px 0; }
+
+#edit-commerce-shipping-shipping-service,
+#commerce-shipping-service-details {
+  clear: both; }
+
+#commerce-checkout-form-shipping label[for="edit-commerce-shipping-shipping-service-bpost-home"],
+#commerce-checkout-form-shipping label[for="edit-commerce-shipping-shipping-service-bpost-postoffice-postpoint"],
+#commerce-checkout-form-shipping label[for="edit-commerce-shipping-shipping-service-bpost-bpack"],
+#commerce-checkout-form-shipping label[for="edit-commerce-shipping-shipping-service-bpost-world"] {
+  background: url("../images/bpost_logo.png") 4px center no-repeat;
+  padding-left: 40px; }
+
+.form-item-commerce-shipping-shipping-service .description {
+  margin-left: 1.1em; }
+
+.responsive-layout-mobile.page-checkout-shipping .form-item-commerce-shipping-shipping-service {
+  width: auto; }
+
+#delivery-parcel-automate {
+  border: 1px solid #c2c2c2;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
+  clear: both;
+  margin: 15px 0;
+  padding: 15px 10px;
+  /**
+  * For IE 6/7 only
+  * Include this rule to trigger hasLayout and contain floats.
+  */
+  *zoom: 1; }
+  #delivery-parcel-automate:before, #delivery-parcel-automate.cf:after {
+    content: " ";
+    /* 1 */
+    display: table;
+    /* 2 */ }
+  #delivery-parcel-automate:after {
+    clear: both; }
+
+.responsive-layout-mobile #delivery-parcel-automate {
+  border: 0;
+  padding: 0; }
+
+table.schedule {
+  border: 1px solid #CCC;
+  margin-bottom: 5px; }
+  table.schedule tr {
+    font-size: 11px; }
+    table.schedule tr.odd {
+      background: #EEE; }
+    table.schedule tr.even {
+      background: white; }
+    table.schedule tr td.day {
+      border-right: 1px solid #CCC;
+      font-weight: bold; }
+
+.page-checkout-review #commerce-checkout-form-review .checkout_review #bpost-shipping .item-list {
+  font-weight: bold; }
+  .page-checkout-review #commerce-checkout-form-review .checkout_review #bpost-shipping .item-list ul li {
+    margin: 0; }
+.page-checkout-review #commerce-checkout-form-review .checkout_review table.schedule {
+  width: auto !important; }
+  .page-checkout-review #commerce-checkout-form-review .checkout_review table.schedule tbody tr.odd {
+    background: #EEE !important; }
+  .page-checkout-review #commerce-checkout-form-review .checkout_review table.schedule tbody tr.even {
+    background: white !important; }

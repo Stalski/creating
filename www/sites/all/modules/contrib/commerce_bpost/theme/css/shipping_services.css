@@ -1,0 +1,27 @@
+.form-item-shipping-services-countries-list-available,
+.form-item-shipping-services-countries-list-enabled {
+  float: left;
+}
+.form-item-shipping-services-countries-list-available select.form-select ,
+.form-item-shipping-services-countries-list-enabled select.form-select {
+  width: 400px;
+}
+#multiselect-list-actions-wrapper {
+  float: left;
+  position: relative;
+  text-align: center;
+  height: 300px;
+  width: 80px;
+}
+#multiselect-list-actions {
+  position: absolute;
+  top: 45%;
+  left: 0;
+}
+#multiselect-list-actions .form-submit {
+  margin: 1px 1px 15px 1px;
+}
+#list-refresh {
+  clear: both;
+  float: none;
+}
