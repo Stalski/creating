@@ -17,6 +17,26 @@ module_load_include('inc', 'creatingideas', 'includes/payment');
 module_load_include('inc', 'creatingideas', 'includes/shipping');
 
 /**
+ * Implements hook_menu().
+ */
+function creatingideas_menu() {
+
+  $item = array();
+
+  $items['admin/config/creating'] = array(
+    'title' => 'Global Creating settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('creatingideas_global_settings'),
+    'access arguments' => array('access site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/admin.inc',
+  );
+
+  return $items;
+
+}
+
+/**
  * Implements hook_theme().
  */
 function creatingideas_theme($existing, $type, $theme, $path) {
@@ -50,6 +70,11 @@ function creatingideas_field_formatter_info() {
     ),
     'creating_dimensions_formatted' => array(
       'label' => t('Formatted dimensions (A x B cm)'),
+      'field types' => array('physical_dimensions'),
+      'settings' => array(),
+    ),
+    'creating_price_dimensions_formatted' => array(
+      'label' => t('Formatted Price / dimensions (€ 6,75 / B cm)'),
       'field types' => array('physical_dimensions'),
       'settings' => array(),
     ),
@@ -100,6 +125,24 @@ function creatingideas_field_formatter_view($entity_type, $entity, $field, $inst
           $html .= ' = <strong>' . $quantity * $data[0] . t('cm') . '</strong>';
         }
         break;
+
+      case 'creating_price_dimensions_formatted':
+
+        $data = array();
+        $data[] = round($item['length'], 5);
+
+        $price_items = field_get_items('commerce_product', $entity, 'commerce_price');
+        $price_html = commerce_currency_format($price_items[0]['amount'], $price_items[0]['currency_code'], $entity);
+        // The rounded values joined together with the unit abbreviation appended.
+        $html = $price_html . ' / ' . $data[0] . ' ' . t('cm');
+
+        if (!empty($display) && isset($display['views_view']) && isset($display['views_view']->result[$display['views_row_id']]->commerce_line_item_field_data_commerce_line_items_quantity)) {
+          $quantity = $display['views_view']->result[$display['views_row_id']]->commerce_line_item_field_data_commerce_line_items_quantity;
+          $html .= ' = <strong>' . $quantity * $data[0] . t('cm') . '</strong>';
+        }
+
+        break;
+
     }
 
     // Add the link to the returned element array.
@@ -112,7 +155,28 @@ function creatingideas_field_formatter_view($entity_type, $entity, $field, $inst
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_library().
+ */
+function creatingideas_library() {
+  $libraries['jquery_ui_spinner'] = array(
+    'title' => 'jQuery Spinner',
+    'website' => 'http://github.com/btburnett3/jquery.ui.spinner/',
+    'version' => '1.8',
+    'js' => array(
+      libraries_get_path('jquery_ui_spinner') . '/ui.spinner.min.js' => array(),
+    ),
+    'css' => array(
+      libraries_get_path('jquery_ui_spinner') . '/ui.spinner.css' => array(),
+    ),
+    'dependencies' => array(
+      array('system', 'ui.widget'),
+    ),
+  );
+  return $libraries;
+}
+
+/**
+ * Implements hook_form_<views_content_views_content_type_edit_form>_alter().
  * @param type $form
  * @param type $form_state
  */
@@ -159,6 +223,22 @@ function creatingideas_ctools_plugin_directory($owner, $plugin_type) {
 }
 
 /**
+ * Implements hook_entity_view().
+ *
+ * Add the offsite header on the Order View at the user page.
+ */
+function creatingideas_entity_view($entity, $type, $view_mode, $langcode) {
+  if ($type == 'commerce_order') {
+    if ($entity->status == 'pending' && $entity->data['payment_method'] == 'offsite|commerce_payment_offsite') {
+      $entity->content['creatingideas_header'] = array(
+        '#markup' => '<div class="commerce-offsite-header">' . creatingideas_make_header($entity) . '</div>',
+        '#weight' => -11,
+      );
+    }
+  }
+}
+
+/**
  * Implementation of hook_commerce_price_component_type_info().
  * Creates a new discount price component type
  */
@@ -181,23 +261,67 @@ function creatingideas_commerce_discount_offer_type_info() {
     'action' => 'creatingideas_volume_discount_amount',
     'entity types' => array('commerce_order'),
   );
-
   return $types;
 }
 
 /**
- * Implements hook_entity_view().
- *
- * Add the offsite header on the Order View at the user page.
+ * Implements hook_commerce_shipping_method_info().
  */
-function creatingideas_entity_view($entity, $type, $view_mode, $langcode) {
-  if ($type == 'commerce_order') {
-    if ($entity->status == 'pending' && $entity->data['payment_method'] == 'offsite|commerce_payment_offsite') {
-      $entity->content['creatingideas_header'] = array(
-        '#markup' => '<div class="commerce-offsite-header">' . creatingideas_make_header($entity) . '</div>',
-        '#weight' => -11,
-      );
-    }
+function creatingideas_commerce_shipping_method_info() {
+  $shipping_methods = array();
+
+  $shipping_methods['creating_flat_rate'] = array(
+    'title' => t('Creating flat rate'),
+    'description' => t('Defines a  flat rate method.'),
+  );
+  $shipping_methods['creating_250'] = array(
+    'title' => t('Creating 250 rate'),
+    'description' => t('Defines a  250 rate method.'),
+  );
+
+  return $shipping_methods;
+}
+
+/**
+ * Implements hook_commerce_shipping_service_info().
+ */
+function creatingideas_commerce_shipping_service_info() {
+  $shipping_services = array();
+
+  $shipping_services['creating_flat_free'] = array(
+    'title' => t('I will pick it up myself'),
+    'description' => t('I will pick it up myself'),
+    'display_title' => t('Free'),
+    'shipping_method' => 'creating_flat_rate',
+    'price_component' => 'shipping',
+    'callbacks' => array(
+      'rate' => 'creatingideas_rate_free',
+    ),
+  );
+
+  $shipping_services['creating_flat_250'] = array(
+    'title' => t('Shipping via post mail'),
+    'description' => t('Shipping with normal post mail for units smaller than 15.'),
+    'display_title' => t('Normal post delivery'),
+    'shipping_method' => 'creating_250',
+    'price_component' => 'shipping',
+    'callbacks' => array(
+      'rate' => 'creatingideas_rate_250',
+    ),
+  );
+
+  return $shipping_services;
+}
+
+/**
+ * Implements hook_commerce_shipping_service_info_alter().
+ *
+ * This should be removed once https://drupal.org/node/1369696 is resolved.
+ */
+function creatingideas_commerce_shipping_service_info_alter(&$shipping_services) {
+  // Use t() to translate the shipping service display.
+  foreach ($shipping_services as $name => &$shipping_service) {
+    $shipping_service['display_title'] = t($shipping_service['display_title']);
   }
 }
 
@@ -256,54 +380,6 @@ function creatingideas_form_rules_ui_edit_element_alter(&$form, &$form_state) {
 }
 
 /**
- * Implements hook_commerce_shipping_method_info().
- */
-function creatingideas_commerce_shipping_method_info() {
-  $shipping_methods = array();
-
-  $shipping_methods['creating_flat_rate'] = array(
-    'title' => t('Creating flat rate'),
-    'description' => t('Defines a single flat rate method.'),
-  );
-
-  return $shipping_methods;
-}
-
-/**
- * Implements hook_commerce_shipping_service_info().
- */
-function creatingideas_commerce_shipping_service_info() {
-  $shipping_services = array();
-
-  $shipping_services['creating_flat_free'] = array(
-    'title' => t('I will pick it up myself'),
-    'description' => t('I will pick it up myself'),
-    'display_title' => t('Free'),
-    'shipping_method' => 'creating_flat_rate',
-    'price_component' => 'shipping',
-    'callbacks' => array(
-      'rate' => 'creatingideas_rate_free',
-    ),
-  );
-
-  $shipping_services['creating_flat_bpost'] = array(
-    'title' => t('You can send it with Bpost'),
-    'description' => t('A flat rate service with Bpost.'),
-    'display_title' => t('Bpost'),
-    'shipping_method' => 'creating_flat_rate',
-    'price_component' => 'shipping',
-    'callbacks' => array(
-      'rate' => 'creatingideas_rate_bpost',
-      //'details_form' => 'creatingideas_rate_free_details_form',
-      //'details_form_validate' => 'creatingideas_rate_free_details_form_validate',
-      //'details_form_submit' => 'creatingideas_rate_free_details_form_submit',
-    ),
-  );
-
-  return $shipping_services;
-}
-
-/**
  * Implements hook_commerce_line_item_type_info().
  */
 /*function creatingideas_commerce_line_item_type_info() {
@@ -312,6 +388,11 @@ function creatingideas_commerce_shipping_service_info() {
 
 function creatingideas_form_alter(&$form, $form_state, $form_id) {
   //dsm($form_id);
+
+  if (strstr($form_id, 'commerce_cart_add_to_cart_form')) {
+    $form['#attached']['library'][] = array('creatingideas', 'jquery_ui_spinner');
+  }
+
 }
 
 /**

@@ -192,6 +192,15 @@ function creating_workshops_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Kop: Algemeen: Tekstveld */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['label'] = 'Workshop types';
+  $handler->display->display_options['header']['area']['content'] = '<a href="/enige-ervaring">Enige ervaring</a> | <a href="Beginners">Beginners</a> | <a href="/workshop-jongeren">Jongeren</a>';
+  $handler->display->display_options['header']['area']['format'] = 'panopoly_wysiwyg_text';
+  $handler->display->display_options['defaults']['footer'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Veld: Inhoud: Kalender */
   $handler->display->display_options['fields']['field_calendar_1']['id'] = 'field_calendar_1';
@@ -264,11 +273,20 @@ function creating_workshops_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'workshop' => 'workshop',
   );
-  /* Filtercriterium: Inhoud: Kalender (!naam:delta) */
-  $handler->display->display_options['filters']['delta']['id'] = 'delta';
-  $handler->display->display_options['filters']['delta']['table'] = 'field_data_field_calendar';
-  $handler->display->display_options['filters']['delta']['field'] = 'delta';
-  $handler->display->display_options['filters']['delta']['operator'] = 'not empty';
+  /* Filtercriterium: Inhoud: Kalender - startdatum (field_calendar) */
+  $handler->display->display_options['filters']['field_calendar_value']['id'] = 'field_calendar_value';
+  $handler->display->display_options['filters']['field_calendar_value']['table'] = 'field_data_field_calendar';
+  $handler->display->display_options['filters']['field_calendar_value']['field'] = 'field_calendar_value';
+  $handler->display->display_options['filters']['field_calendar_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_calendar_value']['form_type'] = 'date_text';
+  $handler->display->display_options['filters']['field_calendar_value']['default_date'] = 'now';
+  /* Filtercriterium: Inhoud: Kalender - startdatum (field_calendar) */
+  $handler->display->display_options['filters']['field_calendar_value_1']['id'] = 'field_calendar_value_1';
+  $handler->display->display_options['filters']['field_calendar_value_1']['table'] = 'field_data_field_calendar';
+  $handler->display->display_options['filters']['field_calendar_value_1']['field'] = 'field_calendar_value';
+  $handler->display->display_options['filters']['field_calendar_value_1']['operator'] = '<';
+  $handler->display->display_options['filters']['field_calendar_value_1']['form_type'] = 'date_text';
+  $handler->display->display_options['filters']['field_calendar_value_1']['default_date'] = 'now + 30 days';
   $handler->display->display_options['block_description'] = 'Upcoming workshops';
 
   /* Display: Upcoming workshops page */
@@ -360,7 +378,7 @@ function creating_workshops_views_default_views() {
   /* Display: Calendar  workshops */
   $handler = $view->new_display('block', 'Calendar  workshops', 'workshop_calendar');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Calendar workshops';
+  $handler->display->display_options['title'] = 'Kalender';
   $handler->display->display_options['defaults']['group_by'] = FALSE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'date_views_pager';
@@ -445,9 +463,12 @@ function creating_workshops_views_default_views() {
     t('All workshops'),
     t('Upcoming workshops'),
     t('Alle workshops'),
+    t('Workshop types'),
+    t('<a href="/enige-ervaring">Enige ervaring</a> | <a href="Beginners">Beginners</a> | <a href="/workshop-jongeren">Jongeren</a>'),
     t('Upcoming workshops page'),
     t('Images from previous workshops'),
     t('Calendar  workshops'),
+    t('Kalender'),
     t('Calendar workshops'),
   );
   $export['workshops'] = $view;

@@ -39,6 +39,9 @@ function creatingideas_creating_product_category_tree_content_type_render($subty
     $query->innerJoin("field_data_field_" . $vocabulary_field, "f1", "f1.entity_type = 'commerce_product' AND f1.bundle = 'cloth' AND f1.field_" . $vocabulary_field . "_target_id = td.tid ");
     $query->innerJoin("field_data_field_products", "fp1", "fp1.entity_type = 'node' AND fp1.bundle = 'cloth_display' AND fp1.field_products_product_id = f1.entity_id ");
     $query->addExpression('COUNT(f1.entity_id)', 'num_products');
+    if (drupal_is_front_page()) {
+      $query->condition('tv.machine_name', array('brand', 'cloth_type'), 'IN');
+    }
     $query->groupBy('td.tid');
 
     $query->condition('tv.machine_name', $vocabulary_name, '=');
