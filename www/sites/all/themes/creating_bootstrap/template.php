@@ -54,6 +54,12 @@ function creating_bootstrap_preprocess_page(&$variables) {
   $footer_tree['#theme_wrappers'] = array('menu_tree__primary');
   $variables['footer_nav'] = drupal_render($footer_tree);
 
+
+  // Footer nav.
+  $data = menu_tree_all_data('menu-footer-menu');
+  $foutput = menu_tree_output($data);
+  $variables['fnav'] = drupal_render($foutput);
+
   // Header carousel.
   $variables['header_carousel'] = '';
   module_load_include('inc', 'featured_page', 'includes/blocks');

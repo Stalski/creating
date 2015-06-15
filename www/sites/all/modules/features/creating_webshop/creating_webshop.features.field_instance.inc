@@ -79,12 +79,9 @@ function creating_webshop_field_default_field_instances() {
       ),
       'node_teaser' => array(
         'label' => 'hidden',
-        'module' => 'commerce_price',
-        'settings' => array(
-          'calculation' => 'calculated_sell_price',
-        ),
-        'type' => 'commerce_price_formatted_amount',
-        'weight' => 2,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -179,7 +176,7 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -253,7 +250,7 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -345,7 +342,7 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 10,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -430,7 +427,7 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -508,7 +505,7 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -586,7 +583,7 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -662,8 +659,8 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'creatingideas',
         'settings' => array(),
-        'type' => 'creating_dimensions_formatted',
-        'weight' => 0,
+        'type' => 'creating_price_dimensions_formatted',
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -735,7 +732,7 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 11,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -825,7 +822,7 @@ function creating_webshop_field_default_field_instances() {
           'image_style' => 'product_teaser',
         ),
         'type' => 'image',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -973,7 +970,7 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 5,
+        'weight' => 14,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -1078,7 +1075,7 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 9,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1148,7 +1145,7 @@ function creating_webshop_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 12,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2127,6 +2124,12 @@ function creating_webshop_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'checkout_pane' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'commerce_cart',
@@ -2166,7 +2169,7 @@ function creating_webshop_field_default_field_instances() {
           'combine' => 1,
           'default_quantity' => 1,
           'line_item_type' => 'product',
-          'show_quantity' => 0,
+          'show_quantity' => 1,
           'show_single_product_attributes' => 0,
         ),
         'type' => 'commerce_cart_add_to_cart_form',
@@ -2213,6 +2216,12 @@ function creating_webshop_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'checkout_pane' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'hidden',
         'module' => 'commerce_cart',
@@ -2300,6 +2309,13 @@ function creating_webshop_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'checkout_pane' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -2351,6 +2367,12 @@ function creating_webshop_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'checkout_pane' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'hidden',
         'module' => 'commerce_cart',

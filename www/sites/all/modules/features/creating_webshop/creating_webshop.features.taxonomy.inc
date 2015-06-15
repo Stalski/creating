@@ -15,7 +15,7 @@ function creating_webshop_taxonomy_default_vocabularies() {
       'description' => '',
       'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => 0,
+      'weight' => -8,
     ),
     'cloth_theme' => array(
       'name' => 'Thema',
@@ -23,7 +23,7 @@ function creating_webshop_taxonomy_default_vocabularies() {
       'description' => '',
       'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => 0,
+      'weight' => -5,
     ),
     'cloth_type' => array(
       'name' => 'Soort stof',
@@ -31,7 +31,7 @@ function creating_webshop_taxonomy_default_vocabularies() {
       'description' => '',
       'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => 0,
+      'weight' => -6,
     ),
     'color' => array(
       'name' => 'Kleur',
@@ -39,7 +39,7 @@ function creating_webshop_taxonomy_default_vocabularies() {
       'description' => '',
       'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => 0,
+      'weight' => -7,
     ),
   );
 }

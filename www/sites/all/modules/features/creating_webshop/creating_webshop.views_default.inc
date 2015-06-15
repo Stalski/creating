@@ -480,7 +480,7 @@ function creating_webshop_views_default_views() {
   $handler->display->display_options['relationships']['field_products_product_id']['table'] = 'field_data_field_products';
   $handler->display->display_options['relationships']['field_products_product_id']['field'] = 'field_products_product_id';
   $handler->display->display_options['relationships']['field_products_product_id']['required'] = TRUE;
-  /* Relatie: Entity Reference: Gerefereerde entiteit */
+  /* Relatie: Referentie naar een entiteit: Gerefereerde entiteit */
   $handler->display->display_options['relationships']['field_brand_target_id']['id'] = 'field_brand_target_id';
   $handler->display->display_options['relationships']['field_brand_target_id']['table'] = 'field_data_field_brand';
   $handler->display->display_options['relationships']['field_brand_target_id']['field'] = 'field_brand_target_id';
@@ -1745,7 +1745,7 @@ function creating_webshop_views_default_views() {
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
-  /* Relatie: Nodequeue: Queue */
+  /* Relatie: Nodequeue: Wachtrij */
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
@@ -1931,7 +1931,7 @@ function creating_webshop_views_default_views() {
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relatie: Nodequeue: Queue */
+  /* Relatie: Nodequeue: Wachtrij */
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';

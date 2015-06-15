@@ -21,7 +21,7 @@ module_load_include('inc', 'creatingideas', 'includes/shipping');
  */
 function creatingideas_menu() {
 
-  $item = array();
+  $items = array();
 
   $items['admin/config/creating'] = array(
     'title' => 'Global Creating settings',

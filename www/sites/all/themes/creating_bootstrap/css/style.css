@@ -496,6 +496,17 @@ div.pane-content div.view-mode-slideshow {
 
 
 /**
+ * quantity spinner
+ */
+.form-item-quantity label {
+  display: none;
+}
+.form-item-quantity .form-text {
+  display: inline-block;
+  width: 80px;
+}
+
+/**
  * varia
  */
 ul.field-slideshow-pager {

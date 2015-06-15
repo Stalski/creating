@@ -104,15 +104,38 @@
 </div>
 <footer class="footer">
   <div class="container">
+
     <?php print render($page['footer']); ?>
 
-    <?php if (!empty($footer_nav)): ?>
-    <nav class="doormat-menu" role="navigation">
-      <?php if (!empty($footer_nav)): ?>
-        <?php print render($footer_nav); ?>
-      <?php endif; ?>
-    </nav>
-    <?php endif; ?>
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Navigatie</h2>
+        <?php if (!empty($footer_nav)): ?>
+        <nav class="doormat-menu" role="navigation">
+          <?php if (!empty($footer_nav)): ?>
+            <?php print render($footer_nav); ?>
+          <?php endif; ?>
+        </nav>
+        <?php endif; ?>
+      </div>
+      <div class="col-md-4">
+        <h2>Diensten</h2>
+        <?php if (!empty($fnav)): ?>
+        <nav role="navigation">
+        <?php print render($fnav); ?>
+        </nav>
+        <?php endif; ?>
+      </div>
+      <div class="col-md-4">
+        <h2>Sociaal</h2>
+
+        <li><a class="facebook" href="https://www.facebook.com/creating.workshops" target="_blank">Facebook</a></li>
+        <li><a class="email" href="mailto:<?php print variable_get('site_mail', ''); ?>" target="_blank">Mail</a></li>
+      </ul>
+
+      </div>
+    </div>
+
 
     <p class="footer-link">Website by <a href="http://www.menhir.be">Menhir</a></p>
   </div>

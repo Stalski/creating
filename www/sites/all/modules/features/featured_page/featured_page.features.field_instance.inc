@@ -17,6 +17,13 @@ function featured_page_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'checkout_pane' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 1,
+      ),
       'default' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -72,6 +79,12 @@ function featured_page_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'This image is the big background image used in the header slideshow OR as header image without text on the detail. ',
     'display' => array(
+      'checkout_pane' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -104,10 +117,10 @@ function featured_page_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
-      'default_image' => 319,
+      'default_image' => 0,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '500 KB',
+      'max_filesize' => '1 MB',
       'max_resolution' => '',
       'min_resolution' => '1024x380',
       'title_field' => 0,
@@ -132,6 +145,12 @@ function featured_page_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'This text will appear in the header itself. This would the short version to tease to read the complete page.',
     'display' => array(
+      'checkout_pane' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'settings' => array(),
@@ -188,6 +207,12 @@ function featured_page_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Use this to have a button on the slideshow to "learn more" about the topic in the header carousel. If you leave this empty, no button will be shown. You can choose any relative url (E.G. node/1234) ',
     'display' => array(
+      'checkout_pane' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -264,6 +289,12 @@ function featured_page_field_default_field_instances() {
 - Featured pages: Same as the normal page but with extra "Teaser information"
 - Featured header pages: Same as the Featured page but with extra required "Header information"',
     'display' => array(
+      'checkout_pane' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'list',
@@ -313,6 +344,12 @@ function featured_page_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'This image is shown when the page is used as featured item. E.G. on the homepage welcome message.',
     'display' => array(
+      'checkout_pane' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'image',
@@ -327,7 +364,7 @@ function featured_page_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
-          'image_link' => '',
+          'image_link' => 'content',
           'image_style' => 'featured_full_width',
         ),
         'type' => 'image',

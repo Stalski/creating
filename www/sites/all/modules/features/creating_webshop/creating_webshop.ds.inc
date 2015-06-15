@@ -428,14 +428,12 @@ function creating_webshop_ds_layout_settings_info() {
         0 => 'title',
         1 => 'field_dimensions',
         2 => 'field_leading_image',
-        3 => 'commerce_price',
       ),
     ),
     'fields' => array(
       'title' => 'middle',
       'field_dimensions' => 'middle',
       'field_leading_image' => 'middle',
-      'commerce_price' => 'middle',
     ),
     'classes' => array(),
     'wrappers' => array(

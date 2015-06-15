@@ -84,7 +84,7 @@ function creating_webshop_strongarm() {
             'visible' => TRUE,
           ),
           'node_teaser' => array(
-            'weight' => '6',
+            'weight' => '15',
             'visible' => FALSE,
           ),
           'full' => array(
@@ -136,7 +136,7 @@ function creating_webshop_strongarm() {
             'visible' => FALSE,
           ),
           'node_teaser' => array(
-            'weight' => '4',
+            'weight' => '13',
             'visible' => FALSE,
           ),
           'full' => array(
