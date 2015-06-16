@@ -68,15 +68,16 @@ ul.social-links li a.email {
 }
 
 /**
- * Footer menu
+ * Footer menu's
  */
-.doormat-menu ul.navbar-nav {
-  float: none;
-  margin-top: 20px;
+.footer h2.highlight {
+  padding-left: 15px;
+  color: #FFF;
+  margin: 20px 0 5px;
 }
 .doormat-menu > .nav > li > a {
-  margin-right: 40px;
   font-size: 1.1em;
+  padding: 7px 10px;
 }
 .doormat-menu .nav > li > a:hover,
 .doormat-menu .nav > li >  a:focus,

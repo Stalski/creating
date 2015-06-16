@@ -23,13 +23,56 @@ function creatingideas_menu() {
 
   $items = array();
 
+  // Creating settings.
   $items['admin/config/creating'] = array(
-    'title' => 'Global Creating settings',
+    'title' => 'Creating',
+    'description' => 'Creating tools & settings.',
+    'position' => 'left',
+    'weight' => -30,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/creating/general'] = array(
+    'title' => 'General settings',
+    'description' => 'Creating general settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('creatingideas_global_settings'),
-    'access arguments' => array('access site configuration'),
-    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('administer site configuration'),
     'file' => 'includes/admin.inc',
+    'weight' => -10,
+  );
+
+  $items['admin/config/creating/social'] = array(
+    'title' => 'Social settings',
+    'description' => 'Creating social settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('creatingideas_social_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'includes/admin.inc',
+    'weight' => -10,
+  );
+
+  $items['admin/config/creating/webshop'] = array(
+    'title' => 'Webshop settings',
+    'description' => 'Creating webshop settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('creatingideas_webshop_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'includes/admin.inc',
+    'weight' => -10,
+  );
+
+  $items['admin/config/creating/contact'] = array(
+    'title' => 'Contact settings',
+    'description' => 'Creating contact settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('creatingideas_contact_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'includes/admin.inc',
+    'weight' => -10,
   );
 
   return $items;

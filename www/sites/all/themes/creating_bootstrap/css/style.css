@@ -556,3 +556,7 @@ body.node-type-workshop span.date-display-single {
 h3 span.date-display-single {
   color: #545454;
 }
+
+.radix-layouts-footer .product-teaser {
+  margin-top: 25px;
+}

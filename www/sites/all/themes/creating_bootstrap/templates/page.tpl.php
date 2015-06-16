@@ -108,31 +108,33 @@
     <?php print render($page['footer']); ?>
 
     <div class="row">
+
       <div class="col-md-4">
-        <h2>Navigatie</h2>
-        <?php if (!empty($footer_nav)): ?>
+        <h2 class="highlight">Menu</h2>
+        <?php if (!empty($doormat_nav)): ?>
         <nav class="doormat-menu" role="navigation">
-          <?php if (!empty($footer_nav)): ?>
-            <?php print render($footer_nav); ?>
-          <?php endif; ?>
+        <?php print render($doormat_nav); ?>
         </nav>
         <?php endif; ?>
       </div>
+
       <div class="col-md-4">
-        <h2>Diensten</h2>
-        <?php if (!empty($fnav)): ?>
-        <nav role="navigation">
-        <?php print render($fnav); ?>
+        <h2 class="highlight">Diensten</h2>
+        <?php if (!empty($services_nav)): ?>
+        <nav class="doormat-menu" role="navigation">
+        <?php print render($services_nav); ?>
         </nav>
         <?php endif; ?>
       </div>
+
       <div class="col-md-4">
-        <h2>Sociaal</h2>
-
-        <li><a class="facebook" href="https://www.facebook.com/creating.workshops" target="_blank">Facebook</a></li>
-        <li><a class="email" href="mailto:<?php print variable_get('site_mail', ''); ?>" target="_blank">Mail</a></li>
-      </ul>
-
+        <h2 class="highlight">Sociaal</h2>
+        <nav class="doormat-menu" role="navigation">
+          <ul class="menu nav">
+            <li><a class="facebook" href="https://www.facebook.com/creating.workshops" target="_blank">Facebook</a></li>
+            <li><a class="email" href="mailto:<?php print variable_get('site_mail', ''); ?>" target="_blank">Mail</a></li>
+          </ul>
+        </nav>
       </div>
     </div>
 

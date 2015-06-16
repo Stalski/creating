@@ -38,27 +38,21 @@ function creating_bootstrap_preprocess_page(&$variables) {
 
   }
 
-
   // Primary nav.
   $data = menu_tree_all_data('main-menu');
-  $tree = $footer_tree = menu_tree_output($data);
+  $tree = menu_tree_output($data);
   $tree['#theme_wrappers'] = array('menu_tree__primary');
   $variables['primary_nav'] = drupal_render($tree);
 
-  //dsm($footer_tree, 'footer tree');
-  foreach ($footer_tree as $mlid => $menu_link_data) {
-    if (is_numeric($mlid)) {
-      $footer_tree[$mlid]['#doormat'] = TRUE;
-    }
-  }
-  $footer_tree['#theme_wrappers'] = array('menu_tree__primary');
-  $variables['footer_nav'] = drupal_render($footer_tree);
-
+  // Footer main menu.
+  $doormat_data = menu_tree_all_data('main-menu', NULL, 1);
+  $doormat_tree = menu_tree_output($doormat_data);
+  $variables['doormat_nav'] = drupal_render($doormat_tree);
 
   // Footer nav.
   $data = menu_tree_all_data('menu-footer-menu');
   $foutput = menu_tree_output($data);
-  $variables['fnav'] = drupal_render($foutput);
+  $variables['services_nav'] = drupal_render($foutput);
 
   // Header carousel.
   $variables['header_carousel'] = '';
