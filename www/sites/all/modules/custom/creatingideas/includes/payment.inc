@@ -36,7 +36,7 @@ function creatingideas_offsite_submit_form($payment_method, $pane_values, $check
  * Payment method callback: checkout form validation.
  */
 function creatingideas_offsite_submit_form_validate($payment_method, $pane_form, $pane_values, $order, $form_parents = array()) {
-  if ($pane_form['method_options']['#value'] == 'none') {
+  if (isset($pane_form['method_options']['#value']) && $pane_form['method_options']['#value'] == 'none') {
     form_set_error('method_options', t('Please select a payment option for the Offsite Payment method.'));
     return FALSE;
   }
@@ -46,9 +46,9 @@ function creatingideas_offsite_submit_form_validate($payment_method, $pane_form,
  * Payment method callback: checkout form submission.
  */
 function creatingideas_offsite_submit_form_submit($payment_method, $pane_form, $pane_values, $order, $charge) {
-  $choosen_method = $pane_values['method_options'];
+  $choosen_method = isset($pane_values['method_options']) ? $pane_values['method_options'] : 'offsite';
   $method_details = array(
-    'value' => $pane_form['method_options'][$choosen_method]['#title'],
+    'value' => isset($pane_form['method_options'][$choosen_method]) ? $pane_form['method_options'][$choosen_method]['#title'] : '',
     'method_number' => $choosen_method,
   );
 

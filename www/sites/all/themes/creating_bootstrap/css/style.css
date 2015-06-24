@@ -135,6 +135,9 @@ blockquote {
 div.label-above {
   font-weight: bold;
 }
+.field-label-aboven div.field-label {
+  padding-bottom: 10px 0;
+}
 
 .view-content .row {
   margin-bottom: 20px;
@@ -559,4 +562,12 @@ h3 span.date-display-single {
 
 .radix-layouts-footer .product-teaser {
   margin-top: 25px;
+  margin-right: 25px;
+}
+
+.form-item-commerce-shipping-service-details-notification-message{
+  float: none;
+  width: 100%;
+  clear: both;
+  margin-top: 40px;
 }

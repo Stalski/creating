@@ -723,4 +723,5 @@ function commerce_bpost_views_default_views_alter(&$views) {
       t('bpost treated orders'),
     );
   }
+
 }
