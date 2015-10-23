@@ -119,7 +119,6 @@ function creatingideas_field_formatter_info() {
     'creating_price_dimensions_formatted' => array(
       'label' => t('Formatted Price / dimensions (€ 6,75 / B cm)'),
       'field types' => array('physical_dimensions'),
-      'settings' => array(),
     ),
   );
 }
@@ -127,7 +126,7 @@ function creatingideas_field_formatter_info() {
 /**
  * Implements hook_field_formatter_view().
  */
-function creatingideas_field_formatter_view($entity_type, $entity, $field, $instances = NULL, $langcode = NULL, $items = NULL, $display = NULL) {
+function creatingideas_field_formatter_view($entity_type, $entity, $field, $instances = NULL, $langcode = NULL, &$items = NULL, $display = NULL) {
 
   $settings = array_merge(field_info_formatter_settings($display['type']), $display['settings']);
 
@@ -175,10 +174,50 @@ function creatingideas_field_formatter_view($entity_type, $entity, $field, $inst
         $data[] = round($item['length'], 5);
 
         $price_items = field_get_items('commerce_product', $entity, 'commerce_price');
-        $price_html = commerce_currency_format($price_items[0]['amount'], $price_items[0]['currency_code'], $entity);
-        // The rounded values joined together with the unit abbreviation appended.
-        $html = $price_html . ' / ' . $data[0] . ' ' . t('cm');
 
+        // Calculate the normal product price.
+        $price_html = commerce_currency_format($price_items[0]['amount'], $price_items[0]['currency_code'], $entity);
+
+        $html = '';
+
+        // Calculate the sell price.
+        $sell_price = commerce_product_calculate_sell_price($entity);
+
+        // If the sell price has a discount, display it.
+        if ($sell_price['amount'] < $price_items[0]['amount']) {
+
+          // First show the sell price in same format but discount label.
+          $sell_price_html = commerce_currency_format($sell_price['amount'], $sell_price['currency_code'], $entity);
+          $html .= '<span class="discounted">' . $sell_price_html . ' / ' . $data[0] . ' ' . t('cm') . '</span>';
+          // Add the normal price with discount indicator.
+          $html .= '<span class="discounted-original">' . $price_html . ' / ' . $data[0] . ' ' . t('cm') . '</span>';
+
+          $discount_items = field_get_items('commerce_product', $entity, 'field_attributes');
+          if (!empty($discount_items)) {
+            $attribute_term = taxonomy_term_load($discount_items[0]['target_id']);
+            if ($attribute_term) {
+              $html .= '<span class="discount-percentage">' . check_plain($attribute_term->name) . '</span>';
+            }
+          }
+
+        }
+        else {
+
+          // The rounded values joined together with the unit abbreviation appended.
+          $html .= $price_html . ' / ' . $data[0] . ' ' . t('cm');
+
+        }
+
+        // Add label badges.
+        $label_items = field_get_items('commerce_product', $entity, 'field_labels');
+        if (!empty($label_items)) {
+          $label_term = taxonomy_term_load($label_items[0]['target_id']);
+          if ($label_term) {
+            $html .= '<span class="discount-label">' . check_plain($label_term->name) . '</span>';
+          }
+        }
+
+        // In a view, add the quantity indicator.
         if (!empty($display) && isset($display['views_view']) && isset($display['views_view']->result[$display['views_row_id']]->commerce_line_item_field_data_commerce_line_items_quantity)) {
           $quantity = $display['views_view']->result[$display['views_row_id']]->commerce_line_item_field_data_commerce_line_items_quantity;
           $html .= ' = <strong>' . $quantity * $data[0] . t('cm') . '</strong>';

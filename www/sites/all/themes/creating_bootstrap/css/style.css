@@ -571,3 +571,37 @@ h3 span.date-display-single {
   clear: both;
   margin-top: 40px;
 }
+
+.discounted {
+  color: #CC0000;
+}
+
+.discounted-original {
+  text-decoration: line-through;
+  font-weight: 0.9em;
+  padding-left: 5px;
+}
+
+.discount-percentage {
+  position: absolute;
+  top: 10px; left: 25px; z-index: 2;
+  background-color: #eb68af;
+  padding: 10px;
+  font-weight: bold;
+	-moz-border-radius: 40px / 16px;
+	-webkit-border-radius: 40px / 16px;
+	border-radius: 40px / 16px;
+  color: #FFF;
+}
+
+.discount-label {
+  position: absolute;
+  top: 10px; right: 25px; z-index: 2;
+  background-color: #eb68af;
+  padding: 10px;
+  font-weight: bold;
+	-moz-border-radius: 40px / 22px;
+	-webkit-border-radius: 40px / 22px;
+	border-radius: 40px / 22px;
+  color: #FFF;
+}
