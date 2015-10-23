@@ -505,7 +505,7 @@ function commerce_kiala_settings($options = array()) {
       $values[$name] = commerce_kiala_decrypt($values[$name]);
     }
   }
-
+ 
   return $values;
 }
 
@@ -554,12 +554,13 @@ function commerce_kiala_settings_info_reset() {
  */
 function commerce_kiala_settings_info($conditions = array()) {
   $info = &drupal_static(__FUNCTION__);
-
+ 
   if (!isset($info)) {
     $info = module_invoke_all('commerce_kiala_settings_info');
+    
     drupal_alter('commerce_kiala_settings_info', $info);
   }
-
+  
   // Apply conditions to the returned info if specified.
   if (!empty($conditions)) {
     $matching_info = array();
@@ -1982,7 +1983,7 @@ function commerce_kiala_render_embedded_search_map($zip, $params = array()) {
   if (empty($zip)) {
     return array();
   }
-
+  
   $params = !empty($params) ? $params : array();
   $api_handler = commerce_kiala_get_handler_ls_map_search($zip, $params);
 
@@ -2142,7 +2143,8 @@ function commerce_kiala_render_embedded_details_map($point_id, $params = array()
  * Returns a renderable array based on embed type
  */
 function _commerce_kiala_render_modal_box($embed_type, $modal_attrs = array()) {
-  if (empty($modal_attrs['url'])) {
+  
+	if (empty($modal_attrs['url'])) {
     return array();
   }
 

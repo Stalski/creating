@@ -85,13 +85,25 @@ function commerce_kiala_settings_form($form, &$form_state) {
     '#group' => 'groups',
     '#weight' => -5,
   );
-  $form['commerce_kiala_common']['dspid'] = array(
+  /* $form['commerce_kiala_common']['dspid'] = array(
     '#type' => 'textfield',
     '#title' => t('Merchant ID (DSP ID)'),
     '#default_value' => isset($default_values['dspid']) ? $default_values['dspid'] : '',
     '#description' => t('Contact Kiala to obtain a DSP ID for locate & search maps. For testing, use "DEMO_DSP".'),
     '#required' => TRUE,
-  );
+  ); */
+  foreach($default_values['shipping_countries_enabled'] as $key => $value){
+	
+  	$form['commerce_kiala_common']['dspid'.$value] = array(
+  			'#type' => 'textfield',
+  			'#title' => $countries[$value]." ".t('Merchant ID (DSP ID)') ,
+  			'#default_value' => isset($default_values['dspid'.$value]) ? $default_values['dspid'.$value] : '',
+  			'#description' => t('Contact Kiala to obtain a DSP ID for locate & search maps. For testing, use "DEMO_DSP".'),
+  			'#required' => false,
+  	);
+}
+// echo __FILE__.' line '.__LINE__; die(var_dump($countries));
+  
   $form['commerce_kiala_common']['shipping_countries_enabled'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Enabled shipping countries'),
@@ -411,7 +423,7 @@ function commerce_kiala_settings_form_submit($form, &$form_state) {
   // Save settings values
   // remove any values not in settings info
   $settings = array_intersect_key($values, $current_settings);
-
+ 
   // merge stored settings
   $settings += $current_settings;
 

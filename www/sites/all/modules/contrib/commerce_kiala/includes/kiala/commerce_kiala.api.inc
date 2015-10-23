@@ -45,7 +45,7 @@ class CommerceKialaAPIQuery {
     if (!empty($this->options['query'])) {
       $queryParams += $this->options['query'];
     }
-
+   
     if (!empty($this->commonQueryParams)) {
       $queryParams += array_intersect_key($this->settings, drupal_map_assoc($this->commonQueryParams));
     }
@@ -330,7 +330,7 @@ class CommerceKialaAPIQueryCache {
     if (method_exists($this, $method)) {
       $this->{$method}($value);
     }
-    elseif (!method_exists($this, 'get' . $camel_name)) {
+    elseif (!method_exists($this, "get_$camel_name")) {
       // allow lazy setting for non read only properties
       $this->{$name} = $value;
     }

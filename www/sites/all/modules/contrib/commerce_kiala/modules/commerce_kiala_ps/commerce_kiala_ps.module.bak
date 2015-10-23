@@ -803,7 +803,7 @@ function commerce_kiala_ps_build_desktop_export($orders) {
     $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
     $shipping_address = $order_wrapper->commerce_customer_shipping->commerce_customer_address->raw();
     $billing_address = $order_wrapper->commerce_customer_billing->commerce_customer_address->raw();
-    $field_customer_first_name = $field_customer_last_name = '';
+    
     if(isset($order_wrapper->commerce_customer_billing->field_customer_email)){
     $field_customer_emaill = $order_wrapper->commerce_customer_billing->field_customer_email->value();
     $field_customer_last_name = $order_wrapper->commerce_customer_shipping->field_customer_last_name->value();
@@ -860,7 +860,6 @@ function commerce_kiala_ps_build_desktop_export($orders) {
       $address = $wrapper->commerce_customer_shipping->commerce_customer_address->value();
       
       /*Mahenina 20150413*/
-      
        $export['customerName'] = $field_customer_first_name . ' '.$field_customer_last_name;
        if(trim($export['customerName']) == ''){
       $export['customerName'] = commerce_kiala_ps_parse_name($address['name_line']);
@@ -876,9 +875,7 @@ function commerce_kiala_ps_build_desktop_export($orders) {
         $export['customerLanguage'] = language_default()->language;
       }
       else {
-       // $errors[] = t('Language is not supported.');
-        $export['customerLanguage'] = strtolower($address['country']);
-        // echo '<pre>'.__FILE__.' line '.__LINE__.'<br/>'; die(var_dump($address['country']));
+        $errors[] = t('Language is not supported.');
       }
     }
     else {

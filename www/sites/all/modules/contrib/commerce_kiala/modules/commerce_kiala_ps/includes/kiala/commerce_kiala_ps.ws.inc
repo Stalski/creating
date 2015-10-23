@@ -29,6 +29,7 @@ class CommerceKialaPSWS {
   }
 
   public function getServiceURL() {
+  	return 'https://kportal.kiala.com/kportal-1.0/soap/OrderService?wsdl';
     if (!empty($this->settings[$this->settings_group . '_url'])) {
       return $this->settings[$this->settings_group . '_url'];
     }
@@ -74,6 +75,12 @@ class CommerceKialaPSWS {
     // compute secret hash:
     // SHA-512 hash code of the order number, Kiala sender id, and Kiala password
     $hash = hash('sha512', $reference_number . $sender_id . $this->settings[$this->settings_group . '_password']);
+    
+    /*Mahenina 20150224*/
+    $hash_key = $this->settings[$this->settings_group . '_password'];
+    $concatenatedString =  $sender_id . $reference_number;
+    $hash = base64_encode(hash_hmac('sha512', $concatenatedString, $hash_key, true));
+    /*Mahenina 20150224*/
 
     // set originator
     $originator = '';
@@ -81,6 +88,7 @@ class CommerceKialaPSWS {
       $originator = $this->settings['packship_platform_originator'];
       $originator = substr($originator, 0, 32);
     }
+    $originator = 'MAG_1.4.0';
 
     return array(
       'identification' => array(
@@ -143,7 +151,8 @@ class CommerceKialaPSWS {
 
     // get order completed date
     $order_completed_date = commerce_kiala_order_completed_date($order);
-
+    $lang_not_permitted = array('en');
+	$lang_default  = (in_array(language_default()->language, $lang_not_permitted))? 'fr' : language_default()->language ;
     // build request
     $request = array(
       'reference' => $reference_number,
@@ -170,10 +179,10 @@ class CommerceKialaPSWS {
           'country' => $this->processValue($recipient_address['country'], 2),
         ),
         'email' => $this->processValue($order->mail, 320),
-        'language' => language_default()->language,
+        'language' => $lang_default,
       )
     );
-
+ 
     // Add optional parameters
     if (!empty($recipient_address['first_name'])) {
       $request['receiver']['firstName'] = $this->processValue($recipient_address['first_name'], 100);
@@ -247,7 +256,7 @@ class CommerceKialaPSWS {
 
     // merge identification
     $request = $identification + $this->request;
-
+   
     // Allow other modles the ability to alter the request before sending.
     drupal_alter('commerce_kiala_ps_ws_send_soap_request', $request, $method);
 
@@ -262,11 +271,13 @@ return $response;
 
     try {
       // Create the SOAP client.
+    	
       $client = new SoapClient($service_url, array(
         'trace' => 1,
         'cache_wsdl' => WSDL_CACHE_NONE,
       ));
 
+      
       // Attempt the SOAP request.
       $response = $client->$method($request);
 
@@ -328,6 +339,7 @@ return $response;
    */
   protected function createErrorResponse($fault_message, $data_error_message = NULL, $fault_code = NULL, $data_error_code = NULL) {
     $response = new stdClass;
+    $response->error = new stdClass;
     $response->status = 'error';
     $response->error->fault_code = isset($fault_code) ? $fault_code : self::DEFAULT_FAULT_ERROR_CODE;
     $response->error->fault_message = $fault_message;

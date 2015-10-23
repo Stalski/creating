@@ -9,10 +9,16 @@
 /**
  * Implements hook_commerce_kiala_settings_info().
  */
+
 function commerce_kiala_commerce_kiala_settings_info() {
   $countries = commerce_kiala_country_get_list();
 
-  return array(
+$dsp_array = array();
+foreach($countries as $key => $value){
+	$dsp_array['dspid'.$key] =  array('default'=>'');
+}
+
+  $return  = array(
     'dspid' => array(
       'default' => '',
     ),
@@ -124,6 +130,9 @@ function commerce_kiala_commerce_kiala_settings_info() {
       ),
     ),
   );
+  $return = array_merge($dsp_array, $return);
+ // echo '<pre>'.__FILE__.' line '.__LINE__; die(var_dump($return));
+  return $return;
 }
 
 /**

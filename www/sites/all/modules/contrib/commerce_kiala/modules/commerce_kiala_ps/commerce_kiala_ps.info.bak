@@ -22,7 +22,7 @@ files[] = includes/commerce_kiala_ps_ws_log.metadatacontroller.inc
 files[] = includes/views/handlers/commerce_kiala_ps_handler_field_ws_log_operations.inc
 
 ; Information added by drupal.org packaging script on 2013-03-11
-version = "7.x-1.6"
+version = "7.x-1.3"
 core = "7.x"
 project = "commerce_kiala"
 datestamp = "1363011015"

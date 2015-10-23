@@ -42,10 +42,10 @@ function commerce_kiala_track_rules_set_order_tracking($order, $tracking_number)
     $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
     $tracking_object = $order_wrapper->kiala_tracking_object->value();
 
+	if(!is_object($tracking_object)) $tracking_object =  new stdClass();
     if (empty($tracking_object->order_id)) {
       $tracking_object->order_id = $order->order_id;
     }
-
     $tracking_object->tracking_number = $tracking_number;
     commerce_kiala_track_write_tracking_record($tracking_object);
   }

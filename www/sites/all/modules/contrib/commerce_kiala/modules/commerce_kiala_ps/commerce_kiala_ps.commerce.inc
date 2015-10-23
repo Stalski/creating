@@ -13,11 +13,11 @@ function commerce_kiala_ps_commerce_kiala_settings_info() {
   return array(
     'packship_platform_originator' => array(
       'group' => 'packship',
-      'default' => 'CG_1.0',
+      'default' => 'MAG_1.4.0',
     ),
     'packship_plugin_number_prefix' => array(
       'group' => 'packship',
-      'default' => 'CG_1.0_',
+      'default' => 'MAG_1.4.0_',
     ),
     'packship_type' => array(
       'group' => 'packship',
@@ -36,7 +36,9 @@ function commerce_kiala_ps_commerce_kiala_settings_info() {
     ),
     'packship_ws_url' => array(
       'group' => 'packship',
-      'default' => 'http://packandship-ws.kiala.com/psws/order?wsdl',
+      // 'default' => 'http://packandship-ws.kiala.com/psws/order?wsdl',
+    		'default' => 'https://kportal.kiala.com/kportal-1.0/soap/OrderService?wsdl',
+    		
     ),
     'packship_ws_max_weight' => array(
       'group' => 'packship',

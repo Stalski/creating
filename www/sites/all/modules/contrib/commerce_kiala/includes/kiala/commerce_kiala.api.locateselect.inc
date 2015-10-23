@@ -198,7 +198,13 @@ class CommerceKialaAPIQueryLocateSelectMap extends CommerceKialaAPIQuery {
         }
       }
     }
-
+   
+    if(isset($queryParams['country'])){
+    	if(trim($this->settings['dspid'.$queryParams['country']])!=''){
+    		$queryParams['dspid'] = $this->settings['dspid'.$queryParams['country']];
+    	}
+    }
+   //  echo '<pre>'.__FILE__.' line '.__LINE__; die(var_dump($queryParams));
     return $queryParams;
   }
 
@@ -222,6 +228,7 @@ class CommerceKialaAPIQueryLocateSelectMapPoint extends CommerceKialaAPIQueryLoc
  */
 class CommerceKialaAPIQueryLocateSelectMapSearch extends CommerceKialaAPIQueryLocateSelectMap {
   public function __construct($settings_group, $options = array()) {
+  	
     $this->requiredQueryParams[] = 'zip';
     parent::__construct($settings_group, $options);
   }
